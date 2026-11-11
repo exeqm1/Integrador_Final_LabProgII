@@ -1,8 +1,165 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Panel Principal";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="p-4 rounded-3 border" style="background: linear-gradient(135deg, rgba(13,110,253,0.15) 0%, rgba(13,202,240,0.05) 100%); border-color: rgba(13,110,253,0.3) !important;">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div>
+                    <h2 class="h3 fw-bold mb-1 text-white">Bienvenido, @User.Identity?.Name</h2>
+                    <p class="text-secondary mb-0">Sistema Integral de Gestión de Infraestructura Tecnológica y Mesa de Ayuda.</p>
+                </div>
+                <div>
+                    <span class="badge bg-primary px-3 py-2 fs-6">
+                        <i class="bi bi-person-badge me-1"></i> Rol: @(User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value)
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    @if (User.IsInRole("ADMINISTRADOR"))
+    {
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-primary-subtle text-primary p-3 rounded-3">
+                            <i class="bi bi-pc-display fs-4"></i>
+                        </span>
+                        <a href="/Equipos" class="btn btn-sm btn-outline-primary">Ver todos</a>
+                    </div>
+                    <h5 class="card-title fw-bold">Inventario de Equipos</h5>
+                    <p class="card-text text-secondary small">Gestión y control de activos informáticos con código patrimonial.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-warning-subtle text-warning p-3 rounded-3">
+                            <i class="bi bi-ticket-detailed fs-4"></i>
+                        </span>
+                        <a href="/Tickets" class="btn btn-sm btn-outline-warning">Mesa de Ayuda</a>
+                    </div>
+                    <h5 class="card-title fw-bold">Tickets de Soporte</h5>
+                    <p class="card-text text-secondary small">Atención de incidentes técnicos con SLA y trazabilidad completa.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-success-subtle text-success p-3 rounded-3">
+                            <i class="bi bi-tools fs-4"></i>
+                        </span>
+                        <a href="/Mantenimientos" class="btn btn-sm btn-outline-success">Órdenes</a>
+                    </div>
+                    <h5 class="card-title fw-bold">Mantenimientos</h5>
+                    <p class="card-text text-secondary small">Preventivos y correctivos con deducción transaccional de repuestos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-info-subtle text-info p-3 rounded-3">
+                            <i class="bi bi-people fs-4"></i>
+                        </span>
+                        <a href="/Usuarios" class="btn btn-sm btn-outline-info">Personal</a>
+                    </div>
+                    <h5 class="card-title fw-bold">Usuarios & Roles</h5>
+                    <p class="card-text text-secondary small">Administración de operadores, técnicos y usuarios solicitantes.</p>
+                </div>
+            </div>
+        </div>
+    }
+    else if (User.IsInRole("TECNICO"))
+    {
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-warning-subtle text-warning p-3 rounded-3">
+                            <i class="bi bi-card-checklist fs-4"></i>
+                        </span>
+                        <a href="/Tickets/Asignados" class="btn btn-sm btn-outline-warning">Ver</a>
+                    </div>
+                    <h5 class="card-title fw-bold">Tickets Asignados</h5>
+                    <p class="card-text text-secondary small">Consultá y resolvé las incidencias que tenés asignadas.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-success-subtle text-success p-3 rounded-3">
+                            <i class="bi bi-tools fs-4"></i>
+                        </span>
+                        <a href="/Mantenimientos" class="btn btn-sm btn-outline-success">Gestionar</a>
+                    </div>
+                    <h5 class="card-title fw-bold">Mantenimientos</h5>
+                    <p class="card-text text-secondary small">Registrá tareas técnicas e insumos/repuestos consumidos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-info-subtle text-info p-3 rounded-3">
+                            <i class="bi bi-boxes fs-4"></i>
+                        </span>
+                        <a href="/Repuestos" class="btn btn-sm btn-outline-info">Pañol</a>
+                    </div>
+                    <h5 class="card-title fw-bold">Stock de Repuestos</h5>
+                    <p class="card-text text-secondary small">Monitoreo de insumos, discos, memorias y stock crítico.</p>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-primary-subtle text-primary p-3 rounded-3">
+                            <i class="bi bi-plus-circle fs-4"></i>
+                        </span>
+                        <a href="/Tickets/Crear" class="btn btn-sm btn-primary">Nuevo Ticket</a>
+                    </div>
+                    <h5 class="card-title fw-bold">Reportar Incidente</h5>
+                    <p class="card-text text-secondary small">Creá una solicitud de soporte para fallas de hardware, software o redes.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="badge bg-secondary-subtle text-secondary p-3 rounded-3">
+                            <i class="bi bi-ticket-detailed fs-4"></i>
+                        </span>
+                        <a href="/Tickets/MisTickets" class="btn btn-sm btn-outline-light">Ver Mis Tickets</a>
+                    </div>
+                    <h5 class="card-title fw-bold">Mis Tickets</h5>
+                    <p class="card-text text-secondary small">Hacé seguimiento del estado de tus solicitudes y comunicate con el técnico.</p>
+                </div>
+            </div>
+        </div>
+    }
 </div>
