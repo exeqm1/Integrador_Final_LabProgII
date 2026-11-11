@@ -1,0 +1,508 @@
+<mxfile host="app.diagrams.net" agent="opencode" compressed="false" version="24.7.7">
+  <diagram id="clases-it-manager" name="Diagrama de Clases - IT Manager">
+    <mxGraphModel dx="3200" dy="2000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3200" pageHeight="2200" background="#F8FAFC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ================= ENUMERACIONES ================= -->
+        <mxCell id="Enum_RolUsuario" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#334155;strokeColor=#1E293B;fontColor=#FFFFFF;fontSize=11;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&#xa;RolUsuario" vertex="1">
+          <mxGeometry x="40" y="40" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Enum_RolUsuario_v" parent="Enum_RolUsuario" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="ADMINISTRADOR&#xa;TECNICO&#xa;EMPLEADO" vertex="1">
+          <mxGeometry y="28" width="220" height="82" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Enum_EstadoEquipo" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#334155;strokeColor=#1E293B;fontColor=#FFFFFF;fontSize=11;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&#xa;EstadoEquipo" vertex="1">
+          <mxGeometry x="290" y="40" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Enum_EstadoEquipo_v" parent="Enum_EstadoEquipo" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="OPERATIVO&#xa;EN_REPARACION&#xa;DE_BAJA" vertex="1">
+          <mxGeometry y="28" width="220" height="82" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Enum_PrioridadTicket" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#334155;strokeColor=#1E293B;fontColor=#FFFFFF;fontSize=11;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&#xa;PrioridadTicket" vertex="1">
+          <mxGeometry x="540" y="40" width="220" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="Enum_PrioridadTicket_v" parent="Enum_PrioridadTicket" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="BAJA&#xa;MEDIA&#xa;ALTA&#xa;CRITICA" vertex="1">
+          <mxGeometry y="28" width="220" height="98" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Enum_EstadoTicket" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#334155;strokeColor=#1E293B;fontColor=#FFFFFF;fontSize=11;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&#xa;EstadoTicket" vertex="1">
+          <mxGeometry x="790" y="40" width="220" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="Enum_EstadoTicket_v" parent="Enum_EstadoTicket" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="ABIERTO&#xa;EN_PROCESO&#xa;RESUELTO&#xa;CERRADO" vertex="1">
+          <mxGeometry y="28" width="220" height="98" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Enum_TipoMantenimiento" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#334155;strokeColor=#1E293B;fontColor=#FFFFFF;fontSize=11;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&#xa;TipoMantenimiento" vertex="1">
+          <mxGeometry x="1040" y="40" width="220" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="Enum_TipoMantenimiento_v" parent="Enum_TipoMantenimiento" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PREVENTIVO&#xa;CORRECTIVO" vertex="1">
+          <mxGeometry y="28" width="220" height="68" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Enum_TipoAdjunto" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=28;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#334155;strokeColor=#1E293B;fontColor=#FFFFFF;fontSize=11;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="&amp;lt;&amp;lt;enumeration&amp;gt;&amp;gt;&#xa;TipoAdjunto" vertex="1">
+          <mxGeometry x="1290" y="40" width="220" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="Enum_TipoAdjunto_v" parent="Enum_TipoAdjunto" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="IMAGEN_EVIDENCIA&#xa;REPORTE_PDF&#xa;COMPROBANTE" vertex="1">
+          <mxGeometry y="28" width="220" height="82" as="geometry" />
+        </mxCell>
+
+        <!-- ================= CLASES DE DOMINIO ================= -->
+
+        <!-- 1. Ubicacion -->
+        <mxCell id="Class_Ubicacion" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="Ubicacion" vertex="1">
+          <mxGeometry x="40" y="240" width="540" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Ubicacion_attrs" parent="Class_Ubicacion" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- nombre: string&#xa;- edificio: string&#xa;- pisoOficina: string&#xa;- activo: bool" vertex="1">
+          <mxGeometry y="30" width="540" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Ubicacion_line" parent="Class_Ubicacion" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="128" width="540" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Ubicacion_methods" parent="Class_Ubicacion" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ Ubicacion()&#xa;+ Ubicacion(id: int, nombre: string, edificio: string, pisoOficina: string)&#xa;+ getDescripcionCompleta(): string" vertex="1">
+          <mxGeometry y="136" width="540" height="94" as="geometry" />
+        </mxCell>
+
+        <!-- 2. Categoria -->
+        <mxCell id="Class_Categoria" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="Categoria" vertex="1">
+          <mxGeometry x="40" y="530" width="540" height="182" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Categoria_attrs" parent="Class_Categoria" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- nombre: string&#xa;- descripcion: string" vertex="1">
+          <mxGeometry y="30" width="540" height="64" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Categoria_line" parent="Class_Categoria" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="94" width="540" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Categoria_methods" parent="Class_Categoria" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ Categoria()&#xa;+ Categoria(id: int, nombre: string, descripcion: string)" vertex="1">
+          <mxGeometry y="102" width="540" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 3. Usuario -->
+        <mxCell id="Class_Usuario" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="Usuario" vertex="1">
+          <mxGeometry x="660" y="240" width="720" height="348" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Usuario_attrs" parent="Class_Usuario" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- nombre: string&#xa;- apellido: string&#xa;- email: string&#xa;- passwordHash: string&#xa;- rol: RolUsuario&#xa;- avatarUrl: string&#xa;- activo: bool&#xa;- ubicacionId: int" vertex="1">
+          <mxGeometry y="30" width="720" height="166" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Usuario_line" parent="Class_Usuario" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="196" width="720" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Usuario_methods" parent="Class_Usuario" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ Usuario()&#xa;+ Usuario(id: int, nombre: string, apellido: string, email: string, rol: RolUsuario, ubicacionId: int)&#xa;+ cambiarPassword(hashNuevo: string): void&#xa;+ actualizarAvatar(rutaArchivo: string): void&#xa;+ esAdmin(): bool&#xa;+ esTecnico(): bool&#xa;+ getNombreCompleto(): string" vertex="1">
+          <mxGeometry y="204" width="720" height="144" as="geometry" />
+        </mxCell>
+
+        <!-- 6. Asignacion -->
+        <mxCell id="Class_Asignacion" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="Asignacion" vertex="1">
+          <mxGeometry x="1460" y="240" width="400" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Asignacion_attrs" parent="Class_Asignacion" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- ticketId: int&#xa;- tecnicoId: int&#xa;- fechaAsignacion: DateTime&#xa;- fechaBaja: DateTime?&#xa;- activo: bool" vertex="1">
+          <mxGeometry y="30" width="400" height="116" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Asignacion_line" parent="Class_Asignacion" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="146" width="400" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Asignacion_methods" parent="Class_Asignacion" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ Asignacion()&#xa;+ Asignacion(ticketId: int, tecnicoId: int)&#xa;+ finalizarAsignacion(): void" vertex="1">
+          <mxGeometry y="154" width="400" height="76" as="geometry" />
+        </mxCell>
+
+        <!-- 7. ComentarioTicket -->
+        <mxCell id="Class_ComentarioTicket" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="ComentarioTicket" vertex="1">
+          <mxGeometry x="1940" y="240" width="500" height="216" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_ComentarioTicket_attrs" parent="Class_ComentarioTicket" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- ticketId: int&#xa;- usuarioId: int&#xa;- mensaje: string&#xa;- fechaHora: DateTime" vertex="1">
+          <mxGeometry y="30" width="500" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_ComentarioTicket_line" parent="Class_ComentarioTicket" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="128" width="500" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_ComentarioTicket_methods" parent="Class_ComentarioTicket" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ ComentarioTicket()&#xa;+ ComentarioTicket(ticketId: int, usuarioId: int, mensaje: string)" vertex="1">
+          <mxGeometry y="136" width="500" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- 4. Equipo -->
+        <mxCell id="Class_Equipo" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="Equipo" vertex="1">
+          <mxGeometry x="40" y="800" width="740" height="388" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Equipo_attrs" parent="Class_Equipo" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- codigoPatrimonial: string&#xa;- numeroSerie: string&#xa;- marca: string&#xa;- modelo: string&#xa;- fechaAlta: DateTime&#xa;- estado: EstadoEquipo&#xa;- categoriaId: int&#xa;- ubicacionId: int&#xa;- usuarioCustodioId: int?" vertex="1">
+          <mxGeometry y="30" width="740" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Equipo_line" parent="Class_Equipo" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="216" width="740" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Equipo_methods" parent="Class_Equipo" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ Equipo()&#xa;+ Equipo(id: int, codigoPatrimonial: string, numeroSerie: string, marca: string, modelo: string, categoriaId: int, ubicacionId: int)&#xa;+ asignarCustodio(usuarioId: int): void&#xa;+ desasignarCustodio(): void&#xa;+ cambiarUbicacion(nuevaUbicacionId: int): void&#xa;+ marcarEnReparacion(): void&#xa;+ marcarOperativo(): void&#xa;+ darDeBaja(): void" vertex="1">
+          <mxGeometry y="224" width="740" height="164" as="geometry" />
+        </mxCell>
+
+        <!-- 5. Ticket -->
+        <mxCell id="Class_Ticket" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="Ticket" vertex="1">
+          <mxGeometry x="840" y="800" width="800" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Ticket_attrs" parent="Class_Ticket" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- codigo: string&#xa;- titulo: string&#xa;- descripcion: string&#xa;- prioridad: PrioridadTicket&#xa;- estado: EstadoTicket&#xa;- fechaCreacion: DateTime&#xa;- fechaCierre: DateTime?&#xa;- usuarioSolicitanteId: int&#xa;- equipoId: int" vertex="1">
+          <mxGeometry y="30" width="800" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Ticket_line" parent="Class_Ticket" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="216" width="800" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Ticket_methods" parent="Class_Ticket" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ Ticket()&#xa;+ Ticket(id: int, codigo: string, titulo: string, descripcion: string, prioridad: PrioridadTicket, solicitanteId: int, equipoId: int)&#xa;+ cambiarEstado(nuevoEstado: EstadoTicket): void&#xa;+ cerrar(): void&#xa;+ estaVencido(diasMaximos: int): bool" vertex="1">
+          <mxGeometry y="224" width="800" height="116" as="geometry" />
+        </mxCell>
+
+        <!-- 11. Adjunto -->
+        <mxCell id="Class_Adjunto" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="Adjunto" vertex="1">
+          <mxGeometry x="1700" y="800" width="540" height="288" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Adjunto_attrs" parent="Class_Adjunto" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- rutaArchivo: string&#xa;- nombreOriginal: string&#xa;- mimeType: string&#xa;- pesoBytes: long&#xa;- tipo: TipoAdjunto&#xa;- fechaSubida: DateTime&#xa;- ticketId: int?&#xa;- mantenimientoId: int?" vertex="1">
+          <mxGeometry y="30" width="540" height="166" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Adjunto_line" parent="Class_Adjunto" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="196" width="540" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Adjunto_methods" parent="Class_Adjunto" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ Adjunto()&#xa;+ Adjunto(ruta: string, nombreOriginal: string, mime: string, peso: long)&#xa;+ getExtension(): string" vertex="1">
+          <mxGeometry y="204" width="540" height="84" as="geometry" />
+        </mxCell>
+
+        <!-- 8. Mantenimiento -->
+        <mxCell id="Class_Mantenimiento" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="Mantenimiento" vertex="1">
+          <mxGeometry x="40" y="1300" width="820" height="344" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Mantenimiento_attrs" parent="Class_Mantenimiento" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- equipoId: int&#xa;- ticketId: int?&#xa;- tecnicoId: int&#xa;- fecha: DateTime&#xa;- tipo: TipoMantenimiento&#xa;- diagnostico: string&#xa;- tareasRealizadas: string&#xa;- horasTrabajo: decimal&#xa;- costoTotalRepuestos: decimal" vertex="1">
+          <mxGeometry y="30" width="820" height="186" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Mantenimiento_line" parent="Class_Mantenimiento" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="216" width="820" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Mantenimiento_methods" parent="Class_Mantenimiento" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ Mantenimiento()&#xa;+ Mantenimiento(equipoId: int, tecnicoId: int, tipo: TipoMantenimiento, diagnostico: string, horas: decimal)&#xa;+ calcularCostoTotal(detalles: List&amp;lt;DetalleMantenimiento&amp;gt;): decimal&#xa;+ finalizarIntervencion(): void" vertex="1">
+          <mxGeometry y="224" width="820" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- 10. DetalleMantenimiento -->
+        <mxCell id="Class_DetalleMantenimiento" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="DetalleMantenimiento" vertex="1">
+          <mxGeometry x="930" y="1300" width="680" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_DetalleMantenimiento_attrs" parent="Class_DetalleMantenimiento" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- mantenimientoId: int&#xa;- repuestoId: int&#xa;- cantidad: int&#xa;- costoHistorico: decimal" vertex="1">
+          <mxGeometry y="30" width="680" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_DetalleMantenimiento_line" parent="Class_DetalleMantenimiento" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="128" width="680" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_DetalleMantenimiento_methods" parent="Class_DetalleMantenimiento" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ DetalleMantenimiento()&#xa;+ DetalleMantenimiento(mantenimientoId: int, repuestoId: int, cantidad: int, costoHistorico: decimal)&#xa;+ getSubtotal(): decimal" vertex="1">
+          <mxGeometry y="136" width="680" height="104" as="geometry" />
+        </mxCell>
+
+        <!-- 9. Repuesto -->
+        <mxCell id="Class_Repuesto" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;container=1;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;arcSize=6;" value="Repuesto" vertex="1">
+          <mxGeometry x="1680" y="1300" width="520" height="286" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Repuesto_attrs" parent="Class_Repuesto" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="- id: int&#xa;- codigo: string&#xa;- nombre: string&#xa;- descripcion: string&#xa;- stockActual: int&#xa;- stockMinimo: int&#xa;- costoUnitario: decimal" vertex="1">
+          <mxGeometry y="30" width="520" height="132" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Repuesto_line" parent="Class_Repuesto" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#CBD5E1;" vertex="1">
+          <mxGeometry y="162" width="520" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="Class_Repuesto_methods" parent="Class_Repuesto" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=10;spacingRight=10;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#F8FAFC;fontColor=#0F172A;" value="+ Repuesto()&#xa;+ Repuesto(id: int, codigo: string, nombre: string, stock: int, min: int, costo: decimal)&#xa;+ descontarStock(cantidad: int): bool&#xa;+ reponerStock(cantidad: int): void&#xa;+ requiereReposicion(): bool" vertex="1">
+          <mxGeometry y="170" width="520" height="116" as="geometry" />
+        </mxCell>
+
+        <!-- ================= RELACIONES Y CARDINALIDADES ================= -->
+
+        <!-- Relacion 1: Ubicacion 1 a 0..* Usuario (reside en) -->
+        <mxCell id="Rel_Ubicacion_Usuario" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Usuario" target="Class_Ubicacion">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_src_Ubicacion_Usuario" parent="Rel_Ubicacion_Usuario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Ubicacion_Usuario" parent="Rel_Ubicacion_Usuario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Ubicacion_Usuario" parent="Rel_Ubicacion_Usuario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="reside en" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 2: Ubicacion 1 a 0..* Equipo (emplazado en) -->
+        <mxCell id="Rel_Ubicacion_Equipo" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Equipo" target="Class_Ubicacion">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180" y="750" />
+              <mxPoint x="180" y="500" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Ubicacion_Equipo" parent="Rel_Ubicacion_Equipo" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Ubicacion_Equipo" parent="Rel_Ubicacion_Equipo" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint x="12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Ubicacion_Equipo" parent="Rel_Ubicacion_Equipo" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="emplazado en" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint x="-40" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 3: Categoria 1 a 0..* Equipo (clasifica) -->
+        <mxCell id="Rel_Categoria_Equipo" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Equipo" target="Class_Categoria">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="760" />
+              <mxPoint x="420" y="740" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Categoria_Equipo" parent="Rel_Categoria_Equipo" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Categoria_Equipo" parent="Rel_Categoria_Equipo" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint x="12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Categoria_Equipo" parent="Rel_Categoria_Equipo" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="clasifica" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint x="25" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 4: Usuario 0..1 a 0..* Equipo (custodia) -->
+        <mxCell id="Rel_Usuario_Equipo" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Equipo" target="Class_Usuario">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="800" />
+              <mxPoint x="750" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Usuario_Equipo" parent="Rel_Usuario_Equipo" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Usuario_Equipo" parent="Rel_Usuario_Equipo" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Usuario_Equipo" parent="Rel_Usuario_Equipo" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="custodia" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint x="-25" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 5: Usuario 1 a 0..* Ticket (solicita) -->
+        <mxCell id="Rel_Usuario_Ticket" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Ticket" target="Class_Usuario">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080" y="700" />
+              <mxPoint x="1080" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Usuario_Ticket" parent="Rel_Usuario_Ticket" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Usuario_Ticket" parent="Rel_Usuario_Ticket" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint x="12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Usuario_Ticket" parent="Rel_Usuario_Ticket" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="solicita" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint x="25" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 6: Equipo 1 a 0..* Ticket (presenta falla) -->
+        <mxCell id="Rel_Equipo_Ticket" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Ticket" target="Class_Equipo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_src_Equipo_Ticket" parent="Rel_Equipo_Ticket" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Equipo_Ticket" parent="Rel_Equipo_Ticket" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Equipo_Ticket" parent="Rel_Equipo_Ticket" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="presenta falla" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 7: Ticket 1 a 0..* ComentarioTicket (contiene) -->
+        <mxCell id="Rel_Ticket_Comentario" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;startArrow=diamond;startFill=1;startSize=12;endArrow=none;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Ticket" target="Class_ComentarioTicket">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1660" y="850" />
+              <mxPoint x="1660" y="600" />
+              <mxPoint x="2050" y="600" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Ticket_Comentario" parent="Rel_Ticket_Comentario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Ticket_Comentario" parent="Rel_Ticket_Comentario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Ticket_Comentario" parent="Rel_Ticket_Comentario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="contiene" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint x="-20" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 8: Usuario 1 a 0..* ComentarioTicket (redacta) -->
+        <mxCell id="Rel_Usuario_Comentario" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_ComentarioTicket" target="Class_Usuario">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2000" y="490" />
+              <mxPoint x="1380" y="490" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Usuario_Comentario" parent="Rel_Usuario_Comentario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Usuario_Comentario" parent="Rel_Usuario_Comentario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Usuario_Comentario" parent="Rel_Usuario_Comentario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="redacta" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 9: Ticket 1 a 0..* Asignacion (asignado en) -->
+        <mxCell id="Rel_Ticket_Asignacion" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Asignacion" target="Class_Ticket">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1560" y="550" />
+              <mxPoint x="1400" y="550" />
+              <mxPoint x="1400" y="800" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Ticket_Asignacion" parent="Rel_Ticket_Asignacion" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Ticket_Asignacion" parent="Rel_Ticket_Asignacion" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint x="12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Ticket_Asignacion" parent="Rel_Ticket_Asignacion" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="asignado en" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint x="30" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 10: Usuario 1 a 0..* Asignacion (asignado a Tecnico) -->
+        <mxCell id="Rel_Usuario_Asignacion" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Asignacion" target="Class_Usuario">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_src_Usuario_Asignacion" parent="Rel_Usuario_Asignacion" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Usuario_Asignacion" parent="Rel_Usuario_Asignacion" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Usuario_Asignacion" parent="Rel_Usuario_Asignacion" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="asignado a (Tecnico)" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 11: Equipo 1 a 0..* Mantenimiento (intervenido en) -->
+        <mxCell id="Rel_Equipo_Mantenimiento" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Mantenimiento" target="Class_Equipo">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="1250" />
+              <mxPoint x="400" y="1190" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Equipo_Mantenimiento" parent="Rel_Equipo_Mantenimiento" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Equipo_Mantenimiento" parent="Rel_Equipo_Mantenimiento" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint x="12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Equipo_Mantenimiento" parent="Rel_Equipo_Mantenimiento" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="intervenido en" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint x="-40" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 12: Ticket 0..1 a 0..* Mantenimiento (origina) -->
+        <mxCell id="Rel_Ticket_Mantenimiento" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Mantenimiento" target="Class_Ticket">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="800" y="1240" />
+              <mxPoint x="950" y="1240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Ticket_Mantenimiento" parent="Rel_Ticket_Mantenimiento" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Ticket_Mantenimiento" parent="Rel_Ticket_Mantenimiento" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint x="12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Ticket_Mantenimiento" parent="Rel_Ticket_Mantenimiento" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="origina" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint x="25" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 13: Usuario 1 a 0..* Mantenimiento (ejecutado por Tecnico) -->
+        <mxCell id="Rel_Usuario_Mantenimiento" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Mantenimiento" target="Class_Usuario">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="1220" />
+              <mxPoint x="840" y="650" />
+              <mxPoint x="800" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Usuario_Mantenimiento" parent="Rel_Usuario_Mantenimiento" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Usuario_Mantenimiento" parent="Rel_Usuario_Mantenimiento" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint x="12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Usuario_Mantenimiento" parent="Rel_Usuario_Mantenimiento" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="ejecutado por (Tecnico)" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint x="-60" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 14: Mantenimiento 1 a 1..* DetalleMantenimiento (incluye) -->
+        <mxCell id="Rel_Mantenimiento_Detalle" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;startArrow=diamond;startFill=1;startSize=12;endArrow=none;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Mantenimiento" target="Class_DetalleMantenimiento">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_src_Mantenimiento_Detalle" parent="Rel_Mantenimiento_Detalle" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Mantenimiento_Detalle" parent="Rel_Mantenimiento_Detalle" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1..*" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Mantenimiento_Detalle" parent="Rel_Mantenimiento_Detalle" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="incluye" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 15: Repuesto 1 a 0..* DetalleMantenimiento (consumido en) -->
+        <mxCell id="Rel_Repuesto_Detalle" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_DetalleMantenimiento" target="Class_Repuesto">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_src_Repuesto_Detalle" parent="Rel_Repuesto_Detalle" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Repuesto_Detalle" parent="Rel_Repuesto_Detalle" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Repuesto_Detalle" parent="Rel_Repuesto_Detalle" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="consumido en" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 16: Ticket 0..1 a 0..* Adjunto (documenta) -->
+        <mxCell id="Rel_Ticket_Adjunto" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Adjunto" target="Class_Ticket">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_src_Ticket_Adjunto" parent="Rel_Ticket_Adjunto" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Ticket_Adjunto" parent="Rel_Ticket_Adjunto" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint y="-12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Ticket_Adjunto" parent="Rel_Ticket_Adjunto" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="documenta" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- Relacion 17: Mantenimiento 0..1 a 0..* Adjunto (respalda) -->
+        <mxCell id="Rel_Mantenimiento_Adjunto" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#334155;strokeWidth=1.5;endArrow=open;endFill=0;fontSize=11;fontFamily=Helvetica;" edge="1" source="Class_Adjunto" target="Class_Mantenimiento">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1800" y="1180" />
+              <mxPoint x="750" y="1180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_src_Mantenimiento_Adjunto" parent="Rel_Mantenimiento_Adjunto" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..*" vertex="1" connectable="0">
+          <mxGeometry x="-0.8" relative="1" as="geometry"><mxPoint x="15" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_trg_Mantenimiento_Adjunto" parent="Rel_Mantenimiento_Adjunto" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontFamily=Helvetica;fontColor=#0F172A;" value="0..1" vertex="1" connectable="0">
+          <mxGeometry x="0.8" relative="1" as="geometry"><mxPoint x="12" as="offset" /></mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_mid_Mantenimiento_Adjunto" parent="Rel_Mantenimiento_Adjunto" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2;fontFamily=Helvetica;fontColor=#475569;" value="respalda" vertex="1" connectable="0">
+          <mxGeometry x="0.0" relative="1" as="geometry"><mxPoint y="-10" as="offset" /></mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
