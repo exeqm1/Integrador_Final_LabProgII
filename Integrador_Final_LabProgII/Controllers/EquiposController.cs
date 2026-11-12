@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using ITManager.Models;
 using ITManager.Models.Enums;
 using ITManager.Repositories.Interfaces;
@@ -31,6 +32,26 @@ namespace ITManager.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int page = 1, int pageSize = 10, string? searchTerm = null, int? categoriaId = null, EstadoEquipo? estado = null)
         {
+            var userId = ObtenerUsuarioIdActual();
+            var esEmpleado = User.IsInRole("EMPLEADO");
+
+            // Si es EMPLEADO, solo ve los equipos asignados a su custodia
+            if (esEmpleado)
+            {
+                var misEquipos = await _equipoRepository.GetByUsuarioCustodioAsync(userId);
+                var vmEmpleado = new EquipoIndexViewModel
+                {
+                    Equipos = misEquipos,
+                    Page = 1,
+                    PageSize = 50,
+                    TotalCount = misEquipos.Count(),
+                    SearchTerm = searchTerm,
+                    CategoriaId = categoriaId,
+                    Estado = estado
+                };
+                return View(vmEmpleado);
+            }
+
             var pagedResult = await _equipoRepository.GetPagedAsync(page, pageSize, searchTerm, categoriaId, estado);
             var categorias = await _categoriaRepository.GetAllAsync();
 
@@ -59,6 +80,14 @@ namespace ITManager.Controllers
             {
                 return NotFound();
             }
+
+            // Si es empleado, protección IDOR: solo puede ver el detalle si es el custodio del equipo
+            var userId = ObtenerUsuarioIdActual();
+            if (User.IsInRole("EMPLEADO") && equipo.UsuarioCustodioId != userId)
+            {
+                return Forbid();
+            }
+
             return View(equipo);
         }
 
@@ -209,6 +238,11 @@ namespace ITManager.Controllers
             }), "Id", "NombreCompleto", custodioId);
             ViewBag.Estados = Enum.GetValues<EstadoEquipo>();
         }
+
+        private int ObtenerUsuarioIdActual()
+        {
+            var claim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.TryParse(claim, out var id) ? id : 1;
+        }
     }
 }
-

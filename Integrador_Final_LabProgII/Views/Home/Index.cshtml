@@ -1,18 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Panel Principal";
+﻿@model ITManager.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard Ejecutivo";
 }
 
-<div class="row g-4 mb-4">
+<div class="row g-3 mb-4">
     <div class="col-12">
         <div class="p-4 rounded-3 border" style="background: linear-gradient(135deg, rgba(13,110,253,0.15) 0%, rgba(13,202,240,0.05) 100%); border-color: rgba(13,110,253,0.3) !important;">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div>
-                    <h2 class="h3 fw-bold mb-1 text-white">Bienvenido, @User.Identity?.Name</h2>
-                    <p class="text-secondary mb-0">Sistema Integral de Gestión de Infraestructura Tecnológica y Mesa de Ayuda.</p>
+                    <h2 class="h3 fw-bold mb-1 text-white">
+                        <i class="bi bi-speedometer2 me-2 text-info"></i>Dashboard Ejecutivo - IT Manager
+                    </h2>
+                    <p class="text-secondary mb-0">Monitoreo en tiempo real de mesa de ayuda, infraestructura de hardware y pañol de repuestos.</p>
                 </div>
                 <div>
                     <span class="badge bg-primary px-3 py-2 fs-6">
-                        <i class="bi bi-person-badge me-1"></i> Rol: @(User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value)
+                        <i class="bi bi-person-badge me-1"></i> Sesión: @User.Identity?.Name (@(User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value))
                     </span>
                 </div>
             </div>
@@ -20,146 +23,297 @@
     </div>
 </div>
 
-<div class="row g-4">
+<!-- TARJETAS KPI -->
+<div class="row g-3 mb-4">
+    <!-- KPI 1: Incidentes Activos -->
+    <div class="col-sm-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="text-secondary small fw-bold text-uppercase">Tickets Activos</span>
+                    <span class="badge bg-warning-subtle text-warning p-2 rounded-3">
+                        <i class="bi bi-ticket-detailed fs-5"></i>
+                    </span>
+                </div>
+                <h3 class="fw-bold text-light mb-1">@(Model.TotalTicketsAbiertos + Model.TotalTicketsEnProceso)</h3>
+                <div class="small">
+                    <span class="text-danger fw-semibold">
+                        <i class="bi bi-exclamation-octagon-fill me-1"></i>@Model.TotalTicketsCriticos Críticos
+                    </span>
+                    <span class="text-secondary ms-2">(@Model.TotalTicketsAbiertos Nuevos)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI 2: Equipos en Reparación -->
+    <div class="col-sm-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="text-secondary small fw-bold text-uppercase">En Taller / Reparación</span>
+                    <span class="badge bg-danger-subtle text-danger p-2 rounded-3">
+                        <i class="bi bi-tools fs-5"></i>
+                    </span>
+                </div>
+                <h3 class="fw-bold text-light mb-1">@Model.TotalEquiposEnReparacion</h3>
+                <div class="small text-secondary">
+                    <span class="text-success fw-semibold">@Model.TotalEquiposOperativos Operativos</span>
+                    <span class="text-muted ms-2">(@Model.TotalEquiposDeBaja Dados de baja)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI 3: Repuestos en Alerta -->
+    <div class="col-sm-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="text-secondary small fw-bold text-uppercase">Alertas de Pañol</span>
+                    <span class="badge bg-info-subtle text-info p-2 rounded-3">
+                        <i class="bi bi-boxes fs-5"></i>
+                    </span>
+                </div>
+                <h3 class="fw-bold text-light mb-1">@(Model.TotalRepuestosCriticos + Model.TotalRepuestosAgotados)</h3>
+                <div class="small">
+                    @if (Model.TotalRepuestosAgotados > 0)
+                    {
+                        <span class="text-danger fw-semibold"><i class="bi bi-x-circle me-1"></i>@Model.TotalRepuestosAgotados Agotados</span>
+                    }
+                    else
+                    {
+                        <span class="text-success fw-semibold"><i class="bi bi-check2-circle me-1"></i>Sin quiebres</span>
+                    }
+                    <span class="text-warning ms-2">(@Model.TotalRepuestosCriticos Bajo stock)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI 4: Tickets Resueltos -->
+    <div class="col-sm-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="text-secondary small fw-bold text-uppercase">Incidentes Cerrados</span>
+                    <span class="badge bg-success-subtle text-success p-2 rounded-3">
+                        <i class="bi bi-check-all fs-5"></i>
+                    </span>
+                </div>
+                <h3 class="fw-bold text-light mb-1">@(Model.TicketsResueltos + Model.TicketsCerrados)</h3>
+                <div class="small text-secondary">
+                    <span class="text-success">@Model.TicketsResueltos Resueltos</span>
+                    <span class="text-muted ms-2">@Model.TicketsCerrados Archivados</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- GRÁFICOS CHART.JS -->
+<div class="row g-4 mb-4">
+    <!-- Gráfico 1: Tickets por Estado (Dona) -->
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-dark-subtle py-3 border-0">
+                <h5 class="card-title fw-bold mb-0 text-white">
+                    <i class="bi bi-pie-chart me-2 text-warning"></i>Distribución de Tickets por Estado
+                </h5>
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center p-4">
+                <div style="position: relative; height: 260px; width: 100%;">
+                    <canvas id="chartTicketsEstado"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico 2: Mantenimientos por Categoría de Hardware (Barras) -->
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-dark-subtle py-3 border-0">
+                <h5 class="card-title fw-bold mb-0 text-white">
+                    <i class="bi bi-bar-chart me-2 text-info"></i>Intervenciones Técnicas por Categoría de Equipo
+                </h5>
+            </div>
+            <div class="card-body d-flex align-items-center justify-content-center p-4">
+                <div style="position: relative; height: 260px; width: 100%;">
+                    <canvas id="chartMantenimientosCat"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ACCESOS RÁPIDOS POR ROL -->
+<div class="row g-3">
+    <div class="col-12">
+        <h5 class="text-light fw-bold mb-3">
+            <i class="bi bi-grid-fill me-2 text-primary"></i>Accesos Directos de Operación
+        </h5>
+    </div>
+
     @if (User.IsInRole("ADMINISTRADOR"))
     {
-        <div class="col-sm-6 col-xl-3">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <span class="badge bg-primary-subtle text-primary p-3 rounded-3">
-                            <i class="bi bi-pc-display fs-4"></i>
-                        </span>
-                        <a href="/Equipos" class="btn btn-sm btn-outline-primary">Ver todos</a>
+        <div class="col-sm-6 col-md-3">
+            <a href="/Equipos" class="card border-0 text-decoration-none text-light h-100 shadow-sm hover-shadow bg-dark-subtle p-3 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-primary rounded-3 text-white"><i class="bi bi-pc-display fs-4"></i></div>
+                    <div>
+                        <div class="fw-bold">Inventario</div>
+                        <small class="text-secondary">Gestión de activos</small>
                     </div>
-                    <h5 class="card-title fw-bold">Inventario de Equipos</h5>
-                    <p class="card-text text-secondary small">Gestión y control de activos informáticos con código patrimonial.</p>
                 </div>
-            </div>
+            </a>
         </div>
-
-        <div class="col-sm-6 col-xl-3">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <span class="badge bg-warning-subtle text-warning p-3 rounded-3">
-                            <i class="bi bi-ticket-detailed fs-4"></i>
-                        </span>
-                        <a href="/Tickets" class="btn btn-sm btn-outline-warning">Mesa de Ayuda</a>
+        <div class="col-sm-6 col-md-3">
+            <a href="/Tickets" class="card border-0 text-decoration-none text-light h-100 shadow-sm hover-shadow bg-dark-subtle p-3 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-warning rounded-3 text-dark"><i class="bi bi-ticket-detailed fs-4"></i></div>
+                    <div>
+                        <div class="fw-bold">Mesa de Ayuda</div>
+                        <small class="text-secondary">Cola de tickets</small>
                     </div>
-                    <h5 class="card-title fw-bold">Tickets de Soporte</h5>
-                    <p class="card-text text-secondary small">Atención de incidentes técnicos con SLA y trazabilidad completa.</p>
                 </div>
-            </div>
+            </a>
         </div>
-
-        <div class="col-sm-6 col-xl-3">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <span class="badge bg-success-subtle text-success p-3 rounded-3">
-                            <i class="bi bi-tools fs-4"></i>
-                        </span>
-                        <a href="/Mantenimientos" class="btn btn-sm btn-outline-success">Órdenes</a>
+        <div class="col-sm-6 col-md-3">
+            <a href="/Mantenimientos" class="card border-0 text-decoration-none text-light h-100 shadow-sm hover-shadow bg-dark-subtle p-3 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-success rounded-3 text-white"><i class="bi bi-tools fs-4"></i></div>
+                    <div>
+                        <div class="fw-bold">Mantenimientos</div>
+                        <small class="text-secondary">Órdenes de taller</small>
                     </div>
-                    <h5 class="card-title fw-bold">Mantenimientos</h5>
-                    <p class="card-text text-secondary small">Preventivos y correctivos con deducción transaccional de repuestos.</p>
                 </div>
-            </div>
+            </a>
         </div>
-
-        <div class="col-sm-6 col-xl-3">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <span class="badge bg-info-subtle text-info p-3 rounded-3">
-                            <i class="bi bi-people fs-4"></i>
-                        </span>
-                        <a href="/Usuarios" class="btn btn-sm btn-outline-info">Personal</a>
+        <div class="col-sm-6 col-md-3">
+            <a href="/Repuestos" class="card border-0 text-decoration-none text-light h-100 shadow-sm hover-shadow bg-dark-subtle p-3 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-info rounded-3 text-dark"><i class="bi bi-boxes fs-4"></i></div>
+                    <div>
+                        <div class="fw-bold">Pañol</div>
+                        <small class="text-secondary">Stock e insumos</small>
                     </div>
-                    <h5 class="card-title fw-bold">Usuarios & Roles</h5>
-                    <p class="card-text text-secondary small">Administración de operadores, técnicos y usuarios solicitantes.</p>
                 </div>
-            </div>
+            </a>
         </div>
     }
     else if (User.IsInRole("TECNICO"))
     {
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <span class="badge bg-warning-subtle text-warning p-3 rounded-3">
-                            <i class="bi bi-card-checklist fs-4"></i>
-                        </span>
-                        <a href="/Tickets/Asignados" class="btn btn-sm btn-outline-warning">Ver</a>
+        <div class="col-md-4">
+            <a href="/Tickets/Asignados" class="card border-0 text-decoration-none text-light h-100 shadow-sm bg-dark-subtle p-3 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-warning rounded-3 text-dark"><i class="bi bi-card-checklist fs-4"></i></div>
+                    <div>
+                        <div class="fw-bold">Tickets Asignados</div>
+                        <small class="text-secondary">Mis tareas de soporte</small>
                     </div>
-                    <h5 class="card-title fw-bold">Tickets Asignados</h5>
-                    <p class="card-text text-secondary small">Consultá y resolvé las incidencias que tenés asignadas.</p>
                 </div>
-            </div>
+            </a>
         </div>
-
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <span class="badge bg-success-subtle text-success p-3 rounded-3">
-                            <i class="bi bi-tools fs-4"></i>
-                        </span>
-                        <a href="/Mantenimientos" class="btn btn-sm btn-outline-success">Gestionar</a>
+        <div class="col-md-4">
+            <a href="/Mantenimientos/Create" class="card border-0 text-decoration-none text-light h-100 shadow-sm bg-dark-subtle p-3 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-success rounded-3 text-white"><i class="bi bi-plus-circle fs-4"></i></div>
+                    <div>
+                        <div class="fw-bold">Nuevo Mantenimiento</div>
+                        <small class="text-secondary">Registrar intervención</small>
                     </div>
-                    <h5 class="card-title fw-bold">Mantenimientos</h5>
-                    <p class="card-text text-secondary small">Registrá tareas técnicas e insumos/repuestos consumidos.</p>
                 </div>
-            </div>
+            </a>
         </div>
-
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <span class="badge bg-info-subtle text-info p-3 rounded-3">
-                            <i class="bi bi-boxes fs-4"></i>
-                        </span>
-                        <a href="/Repuestos" class="btn btn-sm btn-outline-info">Pañol</a>
+        <div class="col-md-4">
+            <a href="/Repuestos" class="card border-0 text-decoration-none text-light h-100 shadow-sm bg-dark-subtle p-3 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-info rounded-3 text-dark"><i class="bi bi-boxes fs-4"></i></div>
+                    <div>
+                        <div class="fw-bold">Pañol de Repuestos</div>
+                        <small class="text-secondary">Consultar disponibilidad</small>
                     </div>
-                    <h5 class="card-title fw-bold">Stock de Repuestos</h5>
-                    <p class="card-text text-secondary small">Monitoreo de insumos, discos, memorias y stock crítico.</p>
                 </div>
-            </div>
+            </a>
         </div>
     }
     else
     {
         <div class="col-md-6">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <span class="badge bg-primary-subtle text-primary p-3 rounded-3">
-                            <i class="bi bi-plus-circle fs-4"></i>
-                        </span>
-                        <a href="/Tickets/Crear" class="btn btn-sm btn-primary">Nuevo Ticket</a>
+            <a href="/Tickets/Crear" class="card border-0 text-decoration-none text-light h-100 shadow-sm bg-dark-subtle p-3 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-warning rounded-3 text-dark"><i class="bi bi-exclamation-octagon fs-4"></i></div>
+                    <div>
+                        <div class="fw-bold">Reportar Incidente Técnico</div>
+                        <small class="text-secondary">Solicitar asistencia técnica</small>
                     </div>
-                    <h5 class="card-title fw-bold">Reportar Incidente</h5>
-                    <p class="card-text text-secondary small">Creá una solicitud de soporte para fallas de hardware, software o redes.</p>
                 </div>
-            </div>
+            </a>
         </div>
-
         <div class="col-md-6">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <span class="badge bg-secondary-subtle text-secondary p-3 rounded-3">
-                            <i class="bi bi-ticket-detailed fs-4"></i>
-                        </span>
-                        <a href="/Tickets/MisTickets" class="btn btn-sm btn-outline-light">Ver Mis Tickets</a>
+            <a href="/Tickets/MisTickets" class="card border-0 text-decoration-none text-light h-100 shadow-sm bg-dark-subtle p-3 rounded-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="p-3 bg-primary rounded-3 text-white"><i class="bi bi-person-lines-fill fs-4"></i></div>
+                    <div>
+                        <div class="fw-bold">Mis Tickets</div>
+                        <small class="text-secondary">Estado de mis solicitudes</small>
                     </div>
-                    <h5 class="card-title fw-bold">Mis Tickets</h5>
-                    <p class="card-text text-secondary small">Hacé seguimiento del estado de tus solicitudes y comunicate con el técnico.</p>
                 </div>
-            </div>
+            </a>
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        // 1. Gráfico de Tickets por Estado
+        const ctxTickets = document.getElementById('chartTicketsEstado').getContext('2d');
+        new Chart(ctxTickets, {
+            type: 'doughnut',
+            data: {
+                labels: ['Abiertos', 'En Proceso', 'Resueltos', 'Cerrados'],
+                datasets: [{
+                    data: [@Model.TicketsAbiertos, @Model.TicketsEnProceso, @Model.TicketsResueltos, @Model.TicketsCerrados],
+                    backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#64748b'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#94a3b8', font: { size: 11 } }
+                    }
+                }
+            }
+        });
+
+        // 2. Gráfico de Mantenimientos por Categoría
+        const ctxMant = document.getElementById('chartMantenimientosCat').getContext('2d');
+        new Chart(ctxMant, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.CategoriasLabels)),
+                datasets: [{
+                    label: 'Intervenciones',
+                    data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.MantenimientosPorCategoria)),
+                    backgroundColor: '#0ea5e9',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { ticks: { color: '#94a3b8' }, grid: { display: false } },
+                    y: { ticks: { color: '#94a3b8', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+}

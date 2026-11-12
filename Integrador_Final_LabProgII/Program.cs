@@ -72,6 +72,23 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+// Inicializador y Seed Data automático al arrancar
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        var hasher = services.GetRequiredService<IPasswordHasher>();
+        await DbInitializer.SeedAsync(context, hasher);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Error al inicializar y sembrar la base de datos.");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using ITManager.Models.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace ITManager.ViewModels
 {
@@ -21,6 +22,9 @@ namespace ITManager.ViewModels
         [Required(ErrorMessage = "Seleccione la prioridad del ticket.")]
         [Display(Name = "Prioridad")]
         public PrioridadTicket Prioridad { get; set; } = PrioridadTicket.MEDIA;
+
+        [Display(Name = "Archivo Adjunto / Evidencia (Opcional)")]
+        public IFormFile? ArchivoAdjunto { get; set; }
     }
 
     public class TicketIndexViewModel
@@ -42,4 +46,3 @@ namespace ITManager.ViewModels
         public int TicketId { get; set; }
     }
 }
-

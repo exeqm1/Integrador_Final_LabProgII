@@ -24,12 +24,14 @@ namespace ITManager.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMINISTRADOR")]
         public IActionResult Create()
         {
             return View(new RepuestoFormViewModel());
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMINISTRADOR")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RepuestoFormViewModel model)
         {
@@ -62,6 +64,7 @@ namespace ITManager.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMINISTRADOR")]
         public async Task<IActionResult> Edit(int id)
         {
             var r = await _repuestoRepository.GetByIdAsync(id);
@@ -82,6 +85,7 @@ namespace ITManager.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMINISTRADOR")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, RepuestoFormViewModel model)
         {
@@ -105,6 +109,7 @@ namespace ITManager.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMINISTRADOR,TECNICO")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReponerStock(int id, int cantidad)
         {
@@ -125,4 +130,3 @@ namespace ITManager.Controllers
         }
     }
 }
-

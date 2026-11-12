@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="card-body p-4">
-                <form asp-action="Create" method="post">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small mb-4" role="alert"></div>
 
@@ -48,10 +48,17 @@
                         <span asp-validation-for="Prioridad" class="text-danger small"></span>
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label asp-for="Descripcion" class="form-label fw-semibold small text-light"></label>
-                        <textarea asp-for="Descripcion" rows="5" class="form-control" placeholder="Detalle los síntomas del problema, mensajes de error o acciones previas a la falla..."></textarea>
+                        <textarea asp-for="Descripcion" rows="4" class="form-control" placeholder="Detalle los síntomas del problema, mensajes de error o acciones previas a la falla..."></textarea>
                         <span asp-validation-for="Descripcion" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ArchivoAdjunto" class="form-label fw-semibold small text-light"></label>
+                        <input type="file" asp-for="ArchivoAdjunto" class="form-control" accept=".jpg,.jpeg,.png,.pdf" />
+                        <span asp-validation-for="ArchivoAdjunto" class="text-danger small"></span>
+                        <div class="form-text text-secondary small">Opcional: Captura de pantalla, foto o reporte (.jpg, .png, .pdf, máx. 5 MB).</div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary-subtle">
@@ -69,4 +76,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-

@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using ITManager.Data;
 using ITManager.Models;
 using ITManager.Models.Enums;
 using ITManager.Repositories.Interfaces;
@@ -15,15 +16,21 @@ namespace ITManager.Controllers
         private readonly ITicketRepository _ticketRepository;
         private readonly IEquipoRepository _equipoRepository;
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _environment;
 
         public TicketsController(
             ITicketRepository ticketRepository,
             IEquipoRepository equipoRepository,
-            IUsuarioRepository usuarioRepository)
+            IUsuarioRepository usuarioRepository,
+            AppDbContext context,
+            IWebHostEnvironment environment)
         {
             _ticketRepository = ticketRepository;
             _equipoRepository = equipoRepository;
             _usuarioRepository = usuarioRepository;
+            _context = context;
+            _environment = environment;
         }
 
         [HttpGet]
@@ -91,8 +98,16 @@ namespace ITManager.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(int? equipoId = null)
         {
+            var userId = ObtenerUsuarioIdActual();
+            var esEmpleado = User.IsInRole("EMPLEADO");
+
+            // Si es empleado, solo permitimos reportar sobre sus equipos asignados o en general
             var equipos = await _equipoRepository.GetAllAsync();
-            ViewBag.Equipos = new SelectList(equipos.Where(e => e.Estado != EstadoEquipo.DE_BAJA).Select(e => new
+            var listaEquipos = esEmpleado
+                ? equipos.Where(e => e.Estado != EstadoEquipo.DE_BAJA && (e.UsuarioCustodioId == userId || e.UsuarioCustodioId == null))
+                : equipos.Where(e => e.Estado != EstadoEquipo.DE_BAJA);
+
+            ViewBag.Equipos = new SelectList(listaEquipos.Select(e => new
             {
                 e.Id,
                 Descripcion = $"[{e.CodigoPatrimonial}] {e.Marca} {e.Modelo} (S/N: {e.NumeroSerie})"
@@ -143,6 +158,40 @@ namespace ITManager.Controllers
             };
 
             await _ticketRepository.CreateAsync(ticket);
+
+            // Si subió archivo adjunto en la creación, lo persistimos físicamente
+            if (model.ArchivoAdjunto != null && model.ArchivoAdjunto.Length > 0 && model.ArchivoAdjunto.Length <= 5 * 1024 * 1024)
+            {
+                var ext = Path.GetExtension(model.ArchivoAdjunto.FileName).ToLowerInvariant();
+                var allowed = new[] { ".jpg", ".jpeg", ".png", ".pdf" };
+                if (allowed.Contains(ext))
+                {
+                    var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+                    if (!Directory.Exists(uploadsFolder)) Directory.CreateDirectory(uploadsFolder);
+
+                    var uniqueFileName = $"{Guid.NewGuid()}{ext}";
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await model.ArchivoAdjunto.CopyToAsync(stream);
+                    }
+
+                    var adjunto = new Adjunto
+                    {
+                        NombreOriginal = Path.GetFileName(model.ArchivoAdjunto.FileName),
+                        RutaArchivo = $"/uploads/{uniqueFileName}",
+                        MimeType = model.ArchivoAdjunto.ContentType,
+                        Tipo = ext == ".pdf" ? TipoAdjunto.REPORTE_PDF : TipoAdjunto.IMAGEN_EVIDENCIA,
+                        FechaSubida = DateTime.UtcNow,
+                        TicketId = ticket.Id
+                    };
+
+                    await _context.Adjuntos.AddAsync(adjunto);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
             TempData["SuccessMessage"] = $"Incidente '{ticket.Codigo}' registrado correctamente en la Mesa de Ayuda.";
             return RedirectToAction(nameof(Details), new { id = ticket.Id });
         }
@@ -159,7 +208,7 @@ namespace ITManager.Controllers
             var userId = ObtenerUsuarioIdActual();
             var esStaff = User.IsInRole("ADMINISTRADOR") || User.IsInRole("TECNICO");
 
-            // Si es un empleado, solo puede ver sus propios tickets
+            // Protección IDOR: Si es un empleado, solo puede ver sus propios tickets
             if (!esStaff && ticket.UsuarioSolicitanteId != userId)
             {
                 return Forbid();
@@ -197,6 +246,14 @@ namespace ITManager.Controllers
             }
 
             var userId = ObtenerUsuarioIdActual();
+            var esStaff = User.IsInRole("ADMINISTRADOR") || User.IsInRole("TECNICO");
+
+            // Protección IDOR en comentarios
+            if (!esStaff && ticket.UsuarioSolicitanteId != userId)
+            {
+                return Forbid();
+            }
+
             var comentario = new ComentarioTicket
             {
                 TicketId = ticketId,
@@ -251,4 +308,3 @@ namespace ITManager.Controllers
         }
     }
 }
-
