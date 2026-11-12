@@ -5,18 +5,15 @@
 
 <div class="row g-3 mb-4">
     <div class="col-12">
-        <div class="p-4 rounded-3 border" style="background: linear-gradient(135deg, rgba(13,110,253,0.15) 0%, rgba(13,202,240,0.05) 100%); border-color: rgba(13,110,253,0.3) !important;">
-            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="card p-3">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                 <div>
-                    <h2 class="h3 fw-bold mb-1 text-white">
-                        <i class="bi bi-speedometer2 me-2 text-info"></i>Dashboard Ejecutivo - IT Manager
-                    </h2>
-                    <p class="text-secondary mb-0">Monitoreo en tiempo real de mesa de ayuda, infraestructura de hardware y pañol de repuestos.</p>
+                    <h1 class="h5 fw-semibold mb-0 text-white">IT Manager</h1>
+                    <span class="text-secondary small">Panel de control del sistema</span>
                 </div>
-                <div>
-                    <span class="badge bg-primary px-3 py-2 fs-6">
-                        <i class="bi bi-person-badge me-1"></i> Sesión: @User.Identity?.Name (@(User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value))
-                    </span>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge border border-secondary text-secondary">@User.Identity?.Name</span>
+                    <span class="badge bg-light text-dark">@(User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value)</span>
                 </div>
             </div>
         </div>
@@ -70,9 +67,9 @@
         <div class="card border-0 shadow-sm h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start mb-2">
-                    <span class="text-secondary small fw-bold text-uppercase">Alertas de Pañol</span>
-                    <span class="badge bg-info-subtle text-info p-2 rounded-3">
-                        <i class="bi bi-boxes fs-5"></i>
+                    <span class="text-secondary small fw-bold text-uppercase">Stock Repuestos</span>
+                    <span class="badge border border-secondary text-secondary p-1">
+                        <i class="bi bi-boxes"></i>
                     </span>
                 </div>
                 <h3 class="fw-bold text-light mb-1">@(Model.TotalRepuestosCriticos + Model.TotalRepuestosAgotados)</h3>

@@ -240,3 +240,4 @@ INSERT INTO `Asignaciones` (`Id`, `TicketId`, `UsuarioTecnicoId`, `FechaAsignaci
 INSERT INTO `ComentariosTickets` (`Id`, `TicketId`, `UsuarioId`, `Mensaje`, `Fecha`) VALUES
 (1, 1, 3, 'El fallo empezó después de la última actualización de Windows.', '2026-11-10 09:35:00'),
 (2, 1, 2, 'Recibido en banco de prueba. Procedo a chequear integridad de memoria y temperaturas.', '2026-11-10 10:15:00');
+
