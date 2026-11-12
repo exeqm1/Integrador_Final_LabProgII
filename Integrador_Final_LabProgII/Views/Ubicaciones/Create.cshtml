@@ -1,0 +1,62 @@
+@model ITManager.Models.Ubicacion
+@{
+    var isEdit = Model.Id > 0;
+    ViewData["Title"] = isEdit ? "Editar Ubicación" : "Nueva Ubicación";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-dark-subtle py-3 border-0">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5 class="fw-bold mb-0 text-white">@ViewData["Title"]</h5>
+                    <a asp-action="Index" class="btn btn-sm btn-outline-secondary">Volver</a>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="@(isEdit ? "Edit" : "Create")" method="post">
+                    @Html.AntiForgeryToken()
+                    @if (isEdit)
+                    {
+                        <input type="hidden" asp-for="Id" />
+                    }
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label small fw-semibold text-light">Nombre de la Sede</label>
+                        <input asp-for="Nombre" class="form-control" placeholder="Ej: Sede Central, Campus Universitario" required />
+                        <span asp-validation-for="Nombre" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6">
+                            <label asp-for="Edificio" class="form-label small fw-semibold text-light"></label>
+                            <input asp-for="Edificio" class="form-control" placeholder="Ej: Torre A, Bloque 3" required />
+                            <span asp-validation-for="Edificio" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PisoOficina" class="form-label small fw-semibold text-light">Piso / Sector</label>
+                            <input asp-for="PisoOficina" class="form-control" placeholder="Ej: Piso 2 - Sala Servidores" required />
+                            <span asp-validation-for="PisoOficina" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" asp-for="Activo" id="activoUbicacion">
+                            <label class="form-check-label text-light small fw-semibold" for="activoUbicacion">
+                                Ubicación Habilitada para asignación de activos y personal
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary-subtle">
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4 fw-semibold">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

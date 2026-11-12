@@ -1,0 +1,46 @@
+@model ITManager.Models.Categoria
+@{
+    var isEdit = Model.Id > 0;
+    ViewData["Title"] = isEdit ? "Editar Categoría" : "Nueva Categoría";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-dark-subtle py-3 border-0">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5 class="fw-bold mb-0 text-white">@ViewData["Title"]</h5>
+                    <a asp-action="Index" class="btn btn-sm btn-outline-secondary">Volver</a>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="@(isEdit ? "Edit" : "Create")" method="post">
+                    @Html.AntiForgeryToken()
+                    @if (isEdit)
+                    {
+                        <input type="hidden" asp-for="Id" />
+                    }
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label small fw-semibold text-light"></label>
+                        <input asp-for="Nombre" class="form-control" placeholder="Ej: Tablets, Switches, Impresoras" required />
+                        <span asp-validation-for="Nombre" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Descripcion" class="form-label small fw-semibold text-light"></label>
+                        <textarea asp-for="Descripcion" rows="3" class="form-control" placeholder="Detalle de los equipos incluidos en este grupo..."></textarea>
+                        <span asp-validation-for="Descripcion" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary-subtle">
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4 fw-semibold">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
