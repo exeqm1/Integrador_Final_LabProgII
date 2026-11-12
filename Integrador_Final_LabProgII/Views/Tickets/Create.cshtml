@@ -1,6 +1,6 @@
 @model ITManager.ViewModels.TicketCreateViewModel
 @{
-    ViewData["Title"] = "Reportar Incidente";
+    ViewData["Title"] = "Nuevo Ticket";
 }
 
 <div class="row justify-content-center">
@@ -22,9 +22,9 @@
                         
                         <div class="input-group">
                             <input type="text" id="equipoSearchInput" class="form-control" 
-                                   placeholder="Buscar por código, modelo, serie..." autocomplete="off" />
+                                   placeholder="Buscar por código patrimonial, marca, serie..." autocomplete="off" />
                             <button type="button" class="btn btn-outline-secondary" id="btnLimpiarEquipo" style="display: none;">
-                                <i class="bi bi-x-lg"></i>
+                                &times;
                             </button>
                         </div>
                         <span asp-validation-for="EquipoId" class="text-danger small d-block mt-1"></span>
@@ -38,32 +38,22 @@
                         <div id="equipoSeleccionadoCard" class="card mt-2 p-2" style="display: none;">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
-                                    <span class="badge border border-secondary text-secondary me-2" id="selCodigo"></span>
+                                    <span class="badge border border-secondary text-secondary me-2 font-monospace" id="selCodigo"></span>
                                     <span class="text-light small fw-medium" id="selDetalle"></span>
                                 </div>
-                                <span class="badge bg-secondary" id="selEstado"></span>
+                                <span class="badge border border-secondary text-secondary" id="selEstado"></span>
                             </div>
-                        </div>
-                    </div>
-                                    <strong class="text-light" id="selDetalle"></strong>
-                                </div>
-                                <span class="badge bg-secondary" id="selEstado"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-text text-secondary small">
-                            La búsqueda consulta el servidor de manera asíncrona sin cargar todos los registros en el cliente.
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Titulo" class="form-label fw-semibold small text-light"></label>
+                        <label asp-for="Titulo" class="form-label small text-secondary">Título del Incidente *</label>
                         <input asp-for="Titulo" class="form-control" placeholder="Ej: No enciende el equipo / Falla disco duro / Pantalla azul" />
                         <span asp-validation-for="Titulo" class="text-danger small"></span>
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Prioridad" class="form-label fw-semibold small text-light"></label>
+                        <label asp-for="Prioridad" class="form-label small text-secondary">Prioridad</label>
                         <select asp-for="Prioridad" class="form-select">
                             @foreach (var prio in (ITManager.Models.Enums.PrioridadTicket[])ViewBag.Prioridades)
                             {
@@ -74,22 +64,21 @@
                     </div>
 
                     <div class="mb-3">
-                        <label asp-for="Descripcion" class="form-label fw-semibold small text-light"></label>
-                        <textarea asp-for="Descripcion" rows="4" class="form-control" placeholder="Detalle los síntomas del problema, mensajes de error o acciones previas a la falla..."></textarea>
+                        <label asp-for="Descripcion" class="form-label small text-secondary">Descripción Detallada *</label>
+                        <textarea asp-for="Descripcion" rows="4" class="form-control" placeholder="Detalle los síntomas del problema, mensajes de error..."></textarea>
                         <span asp-validation-for="Descripcion" class="text-danger small"></span>
                     </div>
 
                     <div class="mb-4">
-                        <label asp-for="ArchivoAdjunto" class="form-label fw-semibold small text-light"></label>
+                        <label asp-for="ArchivoAdjunto" class="form-label small text-secondary">Archivo Adjunto / Evidencia (Opcional)</label>
                         <input type="file" asp-for="ArchivoAdjunto" class="form-control" accept=".jpg,.jpeg,.png,.pdf" />
                         <span asp-validation-for="ArchivoAdjunto" class="text-danger small"></span>
-                        <div class="form-text text-secondary small">Opcional: Captura de pantalla, foto o reporte (.jpg, .png, .pdf, máx. 5 MB).</div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary-subtle">
                         <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancelar</a>
-                        <button type="submit" class="btn btn-warning text-dark px-4 fw-semibold">
-                            <i class="bi bi-send me-1"></i> Enviar Incidente
+                        <button type="submit" class="btn btn-primary px-4">
+                            Enviar Ticket
                         </button>
                     </div>
                 </form>
@@ -140,10 +129,10 @@
                                     btn.className = 'list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-2';
                                     btn.innerHTML = `
                                         <div>
-                                            <strong class="text-info">${eq.codigo}</strong> - ${eq.marca} ${eq.modelo}
+                                            <strong class="text-light">${eq.codigo}</strong> - ${eq.marca} ${eq.modelo}
                                             <div class="small text-secondary">Serie: ${eq.numeroSerie}</div>
                                         </div>
-                                        <span class="badge bg-secondary-subtle text-secondary-emphasis">${eq.estado}</span>
+                                        <span class="badge border border-secondary text-secondary">${eq.estado}</span>
                                     `;
                                     btn.addEventListener('click', () => {
                                         seleccionarEquipo(eq);
@@ -182,7 +171,6 @@
                 resultsDropdown.style.display = 'none';
             });
 
-            // Cerrar dropdown al hacer click afuera
             document.addEventListener('click', function (e) {
                 if (!searchInput.contains(e.target) && !resultsDropdown.contains(e.target)) {
                     resultsDropdown.style.display = 'none';

@@ -1,47 +1,46 @@
 @model ITManager.Models.Ticket
 @{
-    ViewData["Title"] = $"Ticket: {Model.Codigo}";
+    ViewData["Title"] = $"Ticket {Model.Codigo}";
     var esStaff = User.IsInRole("ADMINISTRADOR") || User.IsInRole("TECNICO");
     var asignacionActiva = Model.Asignaciones.FirstOrDefault(a => a.Activo);
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-            <h2 class="h3 fw-bold mb-0 text-white">@Model.Titulo</h2>
-            <span class="badge bg-warning text-dark font-monospace fs-6">@Model.Codigo</span>
+        <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+            <h1 class="h5 fw-semibold mb-0 text-white">@Model.Titulo</h1>
+            <span class="badge border border-secondary text-secondary font-monospace">@Model.Codigo</span>
             @switch (Model.Estado)
             {
                 case ITManager.Models.Enums.EstadoTicket.ABIERTO:
-                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">ABIERTO</span>
+                    <span class="badge border border-danger-subtle text-danger">Abierto</span>
                     break;
                 case ITManager.Models.Enums.EstadoTicket.EN_PROCESO:
-                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">EN PROCESO</span>
+                    <span class="badge border border-warning-subtle text-warning">En proceso</span>
                     break;
                 case ITManager.Models.Enums.EstadoTicket.RESUELTO:
-                    <span class="badge bg-success-subtle text-success border border-success-subtle">RESUELTO</span>
+                    <span class="badge border border-success-subtle text-success">Resuelto</span>
                     break;
                 case ITManager.Models.Enums.EstadoTicket.CERRADO:
-                    <span class="badge bg-secondary-subtle text-secondary-emphasis">CERRADO</span>
+                    <span class="badge border border-secondary text-secondary">Cerrado</span>
                     break;
             }
         </div>
-        <p class="text-secondary small mb-0">
-            Reportado por <strong class="text-light">@(Model.UsuarioSolicitante?.Apellido), @(Model.UsuarioSolicitante?.Nombre)</strong>
-            el @Model.FechaCreacion.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
-        </p>
+        <div class="text-secondary small">
+            Solicitante: <span class="text-light">@(Model.UsuarioSolicitante != null ? $"{Model.UsuarioSolicitante.Nombre} {Model.UsuarioSolicitante.Apellido} ({Model.UsuarioSolicitante.Rol})" : "Sin asignar")</span>
+            &bull;
+            Fecha: @Model.FechaCreacion.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+        </div>
     </div>
-    <div class="d-flex gap-2">
-        <a asp-action="Index" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i> Volver a la Lista
-        </a>
+    <div>
+        <a asp-action="Index" class="btn btn-outline-secondary">Volver</a>
     </div>
 </div>
 
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+        @TempData["SuccessMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
@@ -49,7 +48,7 @@
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["ErrorMessage"]
+        @TempData["ErrorMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
@@ -58,41 +57,36 @@
     <!-- Columna Izquierda: Información del Incidente, Adjuntos e Hilo de Conversación -->
     <div class="col-lg-8">
         <!-- Detalle de Falla -->
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-dark-subtle py-3 border-0">
-                <h5 class="card-title fw-bold mb-0 text-white">
-                    <i class="bi bi-card-text me-2 text-primary"></i>Descripción del Problema
-                </h5>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 class="h6 fw-semibold mb-0 text-white">Descripción</h2>
             </div>
             <div class="card-body">
-                <p class="card-text text-light" style="white-space: pre-line;">@Model.Descripcion</p>
+                <p class="card-text text-light mb-0" style="white-space: pre-line;">@Model.Descripcion</p>
             </div>
         </div>
 
-        <!-- Archivos Adjuntos / Capturas de Pantalla -->
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-dark-subtle py-3 border-0 d-flex justify-content-between align-items-center">
-                <h5 class="card-title fw-bold mb-0 text-white">
-                    <i class="bi bi-paperclip me-2 text-warning"></i>Archivos Adjuntos &amp; Evidencia (@Model.Adjuntos.Count)
-                </h5>
+        <!-- Archivos Adjuntos -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h2 class="h6 fw-semibold mb-0 text-white">Adjuntos (@Model.Adjuntos.Count)</h2>
             </div>
             <div class="card-body">
                 @if (Model.Adjuntos.Any())
                 {
-                    <div class="list-group list-group-flush mb-4">
+                    <div class="list-group list-group-flush mb-3">
                         @foreach (var adj in Model.Adjuntos)
                         {
-                            <div class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between align-items-center">
+                            <div class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between align-items-center border-bottom border-secondary-subtle">
                                 <div>
-                                    <i class="bi bi-file-earmark me-2 text-info"></i>
-                                    <a href="@adj.RutaArchivo" target="_blank" class="text-decoration-none text-light fw-semibold">
+                                    <a href="@adj.RutaArchivo" target="_blank" class="text-decoration-none text-light fw-medium">
                                         @adj.NombreOriginal
                                     </a>
-                                    <small class="text-secondary d-block">Subido el @adj.FechaSubida.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</small>
+                                    <div class="text-secondary small">@adj.FechaSubida.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</div>
                                 </div>
                                 <div>
                                     <a asp-controller="Adjuntos" asp-action="Delete" asp-route-id="@adj.Id" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Confirma eliminar este archivo adjunto?');">
-                                        <i class="bi bi-trash"></i>
+                                        Eliminar
                                     </a>
                                 </div>
                             </div>
@@ -101,9 +95,7 @@
                 }
                 else
                 {
-                    <div class="text-center py-2 text-muted small mb-3">
-                        No hay archivos adjuntos en este ticket.
-                    </div>
+                    <div class="text-secondary small mb-3">Sin archivos adjuntos.</div>
                 }
 
                 @if (Model.Estado != ITManager.Models.Enums.EstadoTicket.CERRADO)
@@ -112,11 +104,11 @@
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="ticketId" value="@Model.Id" />
                         <div class="col-sm-8">
-                            <input type="file" name="archivo" class="form-control form-control-sm" accept=".jpg,.jpeg,.png,.pdf" required />
+                            <input type="file" name="archivo" class="form-control" accept=".jpg,.jpeg,.png,.pdf" required />
                         </div>
                         <div class="col-sm-4">
-                            <button type="submit" class="btn btn-sm btn-outline-warning w-100 fw-semibold">
-                                <i class="bi bi-upload me-1"></i> Adjuntar Evidencia
+                            <button type="submit" class="btn btn-outline-secondary w-100">
+                                Subir Archivo
                             </button>
                         </div>
                     </form>
@@ -125,11 +117,9 @@
         </div>
 
         <!-- Hilo de Conversación / Comentarios -->
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-dark-subtle py-3 border-0">
-                <h5 class="card-title fw-bold mb-0 text-white">
-                    <i class="bi bi-chat-left-dots me-2 text-info"></i>Historial de Mensajes (@Model.Comentarios.Count)
-                </h5>
+        <div class="card">
+            <div class="card-header">
+                <h2 class="h6 fw-semibold mb-0 text-white">Historial de Mensajes (@Model.Comentarios.Count)</h2>
             </div>
             <div class="card-body">
                 @if (Model.Comentarios.Any())
@@ -137,14 +127,12 @@
                     <div class="d-flex flex-column gap-3 mb-4">
                         @foreach (var c in Model.Comentarios)
                         {
-                            var esMio = c.Usuario?.Email == User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-                            <div class="p-3 rounded-3 @(esMio ? "bg-primary-subtle ms-4 border border-primary-subtle" : "bg-dark-subtle me-4 border border-secondary-subtle")">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <span class="fw-semibold @(esMio ? "text-primary-emphasis" : "text-light")">
-                                        <i class="bi bi-person me-1"></i>@(c.Usuario != null ? $"{c.Usuario.Nombre} {c.Usuario.Apellido}" : "Usuario")
-                                        <small class="badge bg-dark text-muted ms-1">@(c.Usuario?.Rol)</small>
+                            <div class="p-3 rounded-2 border border-secondary" style="background-color: #0d0d0d;">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-light small fw-medium">
+                                        @(c.Usuario != null ? $"{c.Usuario.Nombre} {c.Usuario.Apellido} ({c.Usuario.Rol})" : "Usuario")
                                     </span>
-                                    <small class="text-secondary">@c.FechaHora.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</small>
+                                    <span class="text-secondary small">@c.FechaHora.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</span>
                                 </div>
                                 <div class="text-light" style="white-space: pre-line;">@c.Mensaje</div>
                             </div>
@@ -153,33 +141,28 @@
                 }
                 else
                 {
-                    <div class="text-center py-4 text-muted small">
-                        <i class="bi bi-chat-square fs-3 d-block mb-2"></i>
-                        Aún no hay comentarios ni actualizaciones en este ticket.
-                    </div>
+                    <div class="text-secondary small mb-3">No hay comentarios registrados.</div>
                 }
 
                 @if (Model.Estado != ITManager.Models.Enums.EstadoTicket.CERRADO)
                 {
-                    <form asp-action="AddComentario" method="post" class="mt-3">
+                    <form asp-action="AddComentario" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="ticketId" value="@Model.Id" />
                         <div class="mb-3">
-                            <label for="mensajeComentario" class="form-label small fw-semibold text-light">Agregar Respuesta / Actualización</label>
-                            <textarea id="mensajeComentario" name="mensaje" rows="3" class="form-control" placeholder="Escriba un mensaje para el seguimiento del incidente..." required></textarea>
+                            <label for="mensajeComentario" class="form-label small text-secondary">Nuevo Mensaje</label>
+                            <textarea id="mensajeComentario" name="mensaje" rows="3" class="form-control" placeholder="Escriba un mensaje..." required></textarea>
                         </div>
                         <div class="text-end">
-                            <button type="submit" class="btn btn-primary px-4">
-                                <i class="bi bi-send me-1"></i> Enviar Comentario
+                            <button type="submit" class="btn btn-primary">
+                                Enviar Mensaje
                             </button>
                         </div>
                     </form>
                 }
                 else
                 {
-                    <div class="alert alert-secondary py-2 small mb-0 text-center">
-                        <i class="bi bi-lock me-1"></i> Este ticket está cerrado. No se admiten nuevas respuestas.
-                    </div>
+                    <div class="text-secondary small">Ticket cerrado. No se admiten respuestas.</div>
                 }
             </div>
         </div>
@@ -188,67 +171,56 @@
     <!-- Columna Derecha: Equipo Afectado y Gestión Técnica -->
     <div class="col-lg-4">
         <!-- Ficha del Equipo -->
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-dark-subtle py-3 border-0">
-                <h5 class="card-title fw-bold mb-0 text-white">
-                    <i class="bi bi-pc-display me-2 text-primary"></i>Equipo Afectado
-                </h5>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 class="h6 fw-semibold mb-0 text-white">Equipo Afectado</h2>
             </div>
             <div class="card-body">
                 @if (Model.Equipo != null)
                 {
-                    <ul class="list-group list-group-flush bg-transparent">
-                        <li class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between">
-                            <span class="text-secondary">Código:</span>
-                            <strong class="font-monospace text-info">@Model.Equipo.CodigoPatrimonial</strong>
-                        </li>
-                        <li class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between">
-                            <span class="text-secondary">Hardware:</span>
-                            <span>@Model.Equipo.Marca @Model.Equipo.Modelo</span>
-                        </li>
-                        <li class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between">
-                            <span class="text-secondary">Categoría:</span>
-                            <span>@(Model.Equipo.Categoria?.Nombre ?? "N/A")</span>
-                        </li>
-                        <li class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between">
-                            <span class="text-secondary">Ubicación:</span>
-                            <span>@(Model.Equipo.Ubicacion?.Nombre ?? "N/A")</span>
-                        </li>
-                    </ul>
-                    <a asp-controller="Equipos" asp-action="Details" asp-route-id="@Model.Equipo.Id" class="btn btn-sm btn-outline-info w-100 mt-3">
-                        <i class="bi bi-eye me-1"></i> Ver Ficha Técnica del Equipo
+                    <dl class="row mb-0 small">
+                        <dt class="col-5 text-secondary">Código</dt>
+                        <dd class="col-7 text-light font-monospace">@Model.Equipo.CodigoPatrimonial</dd>
+
+                        <dt class="col-5 text-secondary">Equipo</dt>
+                        <dd class="col-7 text-light">@Model.Equipo.Marca @Model.Equipo.Modelo</dd>
+
+                        <dt class="col-5 text-secondary">Categoría</dt>
+                        <dd class="col-7 text-light">@(Model.Equipo.Categoria?.Nombre ?? "-")</dd>
+
+                        <dt class="col-5 text-secondary">Ubicación</dt>
+                        <dd class="col-7 text-light">@(Model.Equipo.Ubicacion?.Nombre ?? "-")</dd>
+                    </dl>
+                    <a asp-controller="Equipos" asp-action="Details" asp-route-id="@Model.Equipo.Id" class="btn btn-outline-secondary w-100 mt-3">
+                        Ver Ficha del Equipo
                     </a>
                 }
             </div>
         </div>
 
-        <!-- Panel de Gestión Técnica (Exclusivo Administrador y Técnico) -->
+        <!-- Panel de Gestión Técnica -->
         @if (esStaff)
         {
-            <div class="card border-0 shadow-sm mb-4 border-warning" style="border-top: 3px solid #f59e0b !important;">
-                <div class="card-header bg-dark-subtle py-3 border-0">
-                    <h5 class="card-title fw-bold mb-0 text-warning">
-                        <i class="bi bi-gear-fill me-2"></i>Gestión de Incidencia
-                    </h5>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="h6 fw-semibold mb-0 text-white">Acciones</h2>
                 </div>
                 <div class="card-body">
                     <!-- Asignación de Técnico -->
                     <form asp-action="AsignarTecnico" method="post" class="mb-4">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="ticketId" value="@Model.Id" />
-                        <label class="form-label small fw-semibold text-light">Técnico Asignado</label>
-                        <div class="input-group">
-                            <select name="tecnicoId" asp-items="ViewBag.Tecnicos" class="form-select form-select-sm">
-                                <option value="">-- Asignar Técnico --</option>
+                        <label class="form-label small text-secondary">Asignar Técnico</label>
+                        <div class="input-group mb-2">
+                            <select name="tecnicoId" asp-items="ViewBag.Tecnicos" class="form-select">
+                                <option value="">-- Seleccionar --</option>
                             </select>
-                            <button type="submit" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-person-check"></i> Asignar
-                            </button>
+                            <button type="submit" class="btn btn-outline-secondary">Asignar</button>
                         </div>
                         @if (asignacionActiva?.Tecnico != null)
                         {
-                            <div class="form-text text-success small mt-1">
-                                <i class="bi bi-check2"></i> Asignado a: @asignacionActiva.Tecnico.Apellido, @asignacionActiva.Tecnico.Nombre
+                            <div class="text-secondary small">
+                                Actualmente asignado: <strong class="text-light">@asignacionActiva.Tecnico.Nombre @asignacionActiva.Tecnico.Apellido (@asignacionActiva.Tecnico.Rol)</strong>
                             </div>
                         }
                     </form>
@@ -257,24 +229,22 @@
                     <form asp-action="CambiarEstado" method="post" class="mb-4">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="ticketId" value="@Model.Id" />
-                        <label class="form-label small fw-semibold text-light">Modificar Estado</label>
+                        <label class="form-label small text-secondary">Estado del Ticket</label>
                         <div class="input-group">
-                            <select name="nuevoEstado" class="form-select form-select-sm">
+                            <select name="nuevoEstado" class="form-select">
                                 @foreach (var est in (ITManager.Models.Enums.EstadoTicket[])ViewBag.Estados)
                                 {
                                     <!option value="@est" @(Model.Estado == est ? "selected" : "")>@est</!option>
                                 }
                             </select>
-                            <button type="submit" class="btn btn-sm btn-outline-warning">
-                                <i class="bi bi-arrow-repeat"></i> Actualizar
-                            </button>
+                            <button type="submit" class="btn btn-outline-secondary">Guardar</button>
                         </div>
                     </form>
 
-                    <!-- Generar Orden de Mantenimiento Directa -->
+                    <!-- Generar Orden de Mantenimiento -->
                     <div class="border-top border-secondary-subtle pt-3">
-                        <a href="/Mantenimientos/Create?ticketId=@Model.Id&equipoId=@Model.EquipoId" class="btn btn-success w-100 fw-semibold">
-                            <i class="bi bi-tools me-1"></i> Generar Orden de Mantenimiento
+                        <a href="/Mantenimientos/Create?ticketId=@Model.Id&equipoId=@Model.EquipoId" class="btn btn-primary w-100">
+                            Iniciar Mantenimiento
                         </a>
                     </div>
                 </div>
