@@ -11,11 +11,53 @@ public class MantenimientoRepository : Repository<Mantenimiento>, IMantenimiento
     {
     }
 
+    public async Task<PagedResult<Mantenimiento>> GetPagedAsync(int page, int pageSize, int? equipoId = null, int? tecnicoId = null)
+    {
+        if (page < 1) page = 1;
+        if (pageSize < 1) pageSize = 10;
+
+        var query = _dbSet
+            .Include(m => m.Equipo)
+            .Include(m => m.Ticket)
+            .Include(m => m.Tecnico)
+            .Include(m => m.Detalles)
+            .AsNoTracking()
+            .AsQueryable();
+
+        if (equipoId.HasValue)
+        {
+            query = query.Where(m => m.EquipoId == equipoId.Value);
+        }
+
+        if (tecnicoId.HasValue)
+        {
+            query = query.Where(m => m.TecnicoId == tecnicoId.Value);
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .OrderByDescending(m => m.Fecha)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResult<Mantenimiento>
+        {
+            Items = items,
+            TotalCount = totalCount,
+            Page = page,
+            PageSize = pageSize
+        };
+    }
+
     public async Task<Mantenimiento?> GetWithDetallesAsync(int id)
     {
         return await _dbSet
             .Include(m => m.Equipo)
                 .ThenInclude(e => e!.Categoria)
+            .Include(m => m.Equipo)
+                .ThenInclude(e => e!.Ubicacion)
             .Include(m => m.Ticket)
             .Include(m => m.Tecnico)
             .Include(m => m.Detalles)
@@ -65,7 +107,7 @@ public class MantenimientoRepository : Repository<Mantenimiento>, IMantenimiento
                 }
                 await _context.SaveChangesAsync();
 
-                // 4. Si el mantenimiento proviene de un ticket y fue correctivo, actualizar estado si corresponde
+                // 4. Si el mantenimiento proviene de un ticket, actualizar estado
                 if (mantenimiento.TicketId.HasValue)
                 {
                     var ticket = await _context.Tickets.FindAsync(mantenimiento.TicketId.Value);
@@ -119,4 +161,3 @@ public class MantenimientoRepository : Repository<Mantenimiento>, IMantenimiento
             .ToListAsync();
     }
 }
-

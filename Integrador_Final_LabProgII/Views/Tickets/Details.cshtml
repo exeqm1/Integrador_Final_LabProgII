@@ -55,7 +55,7 @@
 }
 
 <div class="row g-4">
-    <!-- Columna Izquierda: Información del Incidente e Hilo de Conversación -->
+    <!-- Columna Izquierda: Información del Incidente, Adjuntos e Hilo de Conversación -->
     <div class="col-lg-8">
         <!-- Detalle de Falla -->
         <div class="card border-0 shadow-sm mb-4">
@@ -66,6 +66,61 @@
             </div>
             <div class="card-body">
                 <p class="card-text text-light" style="white-space: pre-line;">@Model.Descripcion</p>
+            </div>
+        </div>
+
+        <!-- Archivos Adjuntos / Capturas de Pantalla -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-dark-subtle py-3 border-0 d-flex justify-content-between align-items-center">
+                <h5 class="card-title fw-bold mb-0 text-white">
+                    <i class="bi bi-paperclip me-2 text-warning"></i>Archivos Adjuntos &amp; Evidencia (@Model.Adjuntos.Count)
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Adjuntos.Any())
+                {
+                    <div class="list-group list-group-flush mb-4">
+                        @foreach (var adj in Model.Adjuntos)
+                        {
+                            <div class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="bi bi-file-earmark me-2 text-info"></i>
+                                    <a href="@adj.RutaArchivo" target="_blank" class="text-decoration-none text-light fw-semibold">
+                                        @adj.NombreOriginal
+                                    </a>
+                                    <small class="text-secondary d-block">Subido el @adj.FechaSubida.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</small>
+                                </div>
+                                <div>
+                                    <a asp-controller="Adjuntos" asp-action="Delete" asp-route-id="@adj.Id" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Confirma eliminar este archivo adjunto?');">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-2 text-muted small mb-3">
+                        No hay archivos adjuntos en este ticket.
+                    </div>
+                }
+
+                @if (Model.Estado != ITManager.Models.Enums.EstadoTicket.CERRADO)
+                {
+                    <form asp-controller="Adjuntos" asp-action="Upload" method="post" enctype="multipart/form-data" class="row g-2 align-items-center">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Id" />
+                        <div class="col-sm-8">
+                            <input type="file" name="archivo" class="form-control form-control-sm" accept=".jpg,.jpeg,.png,.pdf" required />
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-sm btn-outline-warning w-100 fw-semibold">
+                                <i class="bi bi-upload me-1"></i> Adjuntar Evidencia
+                            </button>
+                        </div>
+                    </form>
+                }
             </div>
         </div>
 
@@ -106,7 +161,6 @@
 
                 @if (Model.Estado != ITManager.Models.Enums.EstadoTicket.CERRADO)
                 {
-                    <!-- Formulario de nuevo comentario -->
                     <form asp-action="AddComentario" method="post" class="mt-3">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="ticketId" value="@Model.Id" />

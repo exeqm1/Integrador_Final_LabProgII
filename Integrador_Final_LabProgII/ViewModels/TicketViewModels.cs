@@ -42,3 +42,4 @@ namespace ITManager.ViewModels
         public int TicketId { get; set; }
     }
 }
+

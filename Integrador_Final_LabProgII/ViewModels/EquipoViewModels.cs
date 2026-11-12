@@ -52,3 +52,4 @@ namespace ITManager.ViewModels
         public EstadoEquipo? Estado { get; set; }
     }
 }
+

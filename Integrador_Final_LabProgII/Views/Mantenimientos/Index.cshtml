@@ -1,0 +1,133 @@
+@model ITManager.ViewModels.MantenimientoIndexViewModel
+@{
+    ViewData["Title"] = "Órdenes de Mantenimiento";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <h2 class="h3 fw-bold mb-1 text-white">
+            <i class="bi bi-tools me-2 text-success"></i>Órdenes de Mantenimiento
+        </h2>
+        <p class="text-secondary small mb-0">Registro de tareas técnicas, deducción de repuestos y tiempos de labor.</p>
+    </div>
+    <div>
+        <a asp-action="Create" class="btn btn-success px-3 fw-semibold shadow-sm">
+            <i class="bi bi-plus-circle me-1"></i> Nueva Orden
+        </a>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark text-secondary">
+                <tr>
+                    <th># Orden</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Equipo</th>
+                    <th>Ticket</th>
+                    <th>Técnico</th>
+                    <th>Horas</th>
+                    <th>Costo Repuestos</th>
+                    <th class="text-end">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Mantenimientos.Any())
+                {
+                    @foreach (var item in Model.Mantenimientos)
+                    {
+                        <tr>
+                            <td class="font-monospace fw-bold text-light">#@item.Id</td>
+                            <td class="small text-secondary">@item.Fecha.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>
+                                @if (item.Tipo == ITManager.Models.Enums.TipoMantenimiento.PREVENTIVO)
+                                {
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle">PREVENTIVO</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">CORRECTIVO</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Equipo != null)
+                                {
+                                    <span class="font-monospace fw-semibold text-light">@item.Equipo.CodigoPatrimonial</span>
+                                    <small class="text-secondary d-block">@item.Equipo.Marca @item.Equipo.Modelo</small>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Ticket != null)
+                                {
+                                    <span class="badge bg-dark-subtle text-warning border border-secondary-subtle font-monospace">
+                                        @item.Ticket.Codigo
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">Sin ticket</span>
+                                }
+                            </td>
+                            <td>
+                                <span class="small text-light">
+                                    @(item.Tecnico?.Apellido), @(item.Tecnico?.Nombre)
+                                </span>
+                            </td>
+                            <td>@item.HorasTrabajo hs</td>
+                            <td class="font-monospace fw-semibold text-success">$@item.CostoTotalRepuestos</td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info" title="Ver Remito Técnico">
+                                    <i class="bi bi-file-earmark-text me-1"></i> Remito
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="text-center py-4 text-muted">
+                            <i class="bi bi-inbox fs-3 d-block mb-2"></i>
+                            No hay órdenes de mantenimiento registradas.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (Model.TotalPages > 1)
+    {
+        <div class="card-footer bg-transparent border-top border-secondary-subtle d-flex justify-content-between align-items-center flex-wrap py-3">
+            <span class="text-secondary small">
+                Página @Model.Page de @Model.TotalPages (Total: @Model.TotalCount registros)
+            </span>
+            <nav aria-label="Navegación de mantenimientos">
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page - 1)">Anterior</a>
+                    </li>
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.Page == i ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" asp-action="Index" asp-route-page="@(Model.Page + 1)">Siguiente</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
+</div>

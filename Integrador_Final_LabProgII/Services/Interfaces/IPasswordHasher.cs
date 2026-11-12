@@ -6,3 +6,4 @@ namespace ITManager.Services.Interfaces
         bool VerifyPassword(string password, string passwordHash);
     }
 }
+

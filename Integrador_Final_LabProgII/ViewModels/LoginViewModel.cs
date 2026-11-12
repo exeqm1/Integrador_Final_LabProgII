@@ -20,3 +20,4 @@ namespace ITManager.ViewModels
         public string? ReturnUrl { get; set; }
     }
 }
+

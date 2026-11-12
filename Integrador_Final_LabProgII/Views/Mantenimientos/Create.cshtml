@@ -1,0 +1,248 @@
+@model ITManager.ViewModels.MantenimientoCreateViewModel
+@{
+    ViewData["Title"] = "Nueva Orden de Mantenimiento";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-9">
+        <div class="card border-0 shadow-lg">
+            <div class="card-header bg-dark-subtle py-3 border-0">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h4 class="h5 fw-bold mb-0 text-white">
+                        <i class="bi bi-tools me-2 text-success"></i>
+                        Registro de Intervención Técnica
+                    </h4>
+                    <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i> Volver
+                    </a>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Create" method="post" id="formMantenimiento">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small mb-4" role="alert"></div>
+
+                    <input type="hidden" asp-for="DetallesJson" id="detallesJsonInput" />
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="EquipoId" class="form-label fw-semibold small text-light"></label>
+                            <select asp-for="EquipoId" asp-items="ViewBag.Equipos" class="form-select">
+                                <option value="">-- Seleccionar Equipo --</option>
+                            </select>
+                            <span asp-validation-for="EquipoId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="TicketId" class="form-label fw-semibold small text-light"></label>
+                            <select asp-for="TicketId" asp-items="ViewBag.Tickets" class="form-select">
+                                <option value="">-- Sin Ticket Asociado (Mantenimiento Directo) --</option>
+                            </select>
+                            <span asp-validation-for="TicketId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Tipo" class="form-label fw-semibold small text-light"></label>
+                            <select asp-for="Tipo" class="form-select">
+                                @foreach (var t in (ITManager.Models.Enums.TipoMantenimiento[])ViewBag.Tipos)
+                                {
+                                    <option value="@t">@t</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="HorasTrabajo" class="form-label fw-semibold small text-light"></label>
+                            <div class="input-group">
+                                <input asp-for="HorasTrabajo" class="form-control" type="number" step="0.5" min="0.5" />
+                                <span class="input-group-text bg-dark-subtle text-secondary">Horas</span>
+                            </div>
+                            <span asp-validation-for="HorasTrabajo" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="Diagnostico" class="form-label fw-semibold small text-light"></label>
+                            <textarea asp-for="Diagnostico" rows="2" class="form-control" placeholder="Diagnóstico de la falla o motivo de la intervención preventiva..."></textarea>
+                            <span asp-validation-for="Diagnostico" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="TareasRealizadas" class="form-label fw-semibold small text-light"></label>
+                            <textarea asp-for="TareasRealizadas" rows="3" class="form-control" placeholder="Detalle paso a paso los procedimientos realizados en el equipo..."></textarea>
+                            <span asp-validation-for="TareasRealizadas" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN DINÁMICA DE REPUESTOS -->
+                    <div class="card border border-secondary-subtle bg-dark-subtle mb-4">
+                        <div class="card-header bg-transparent py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="fw-bold mb-0 text-white">
+                                <i class="bi bi-boxes me-2 text-info"></i>Repuestos e Insumos Consumidos del Pañol
+                            </h6>
+                            <span class="badge bg-secondary" id="badgeTotalItems">0 artículos agregados</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-2 align-items-end mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small text-secondary">Repuesto / Insumo</label>
+                                    <select id="selectRepuesto" class="form-select form-select-sm">
+                                        <option value="">-- Seleccionar Repuesto del Pañol --</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label small text-secondary">Cantidad a Consumir</label>
+                                    <input type="number" id="inputCantidad" class="form-control form-control-sm" min="1" value="1" />
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" id="btnAgregarRepuesto" class="btn btn-sm btn-info w-100 fw-semibold text-dark">
+                                        <i class="bi bi-plus-circle me-1"></i> Agregar al Remito
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-sm table-dark table-hover mb-0" id="tablaRepuestos">
+                                    <thead class="text-secondary small">
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Repuesto</th>
+                                            <th class="text-center">Cant.</th>
+                                            <th class="text-end">Costo Unit.</th>
+                                            <th class="text-end">Subtotal</th>
+                                            <th class="text-center">Quitar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyRepuestos">
+                                        <tr id="filaVacia">
+                                            <td colspan="6" class="text-center text-muted small py-3">
+                                                No se han agregado repuestos aún.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="fw-bold border-top border-secondary">
+                                            <td colspan="4" class="text-end text-light">TOTAL REPUESTOS:</td>
+                                            <td class="text-end text-success font-monospace" id="totalRepuestosLabel">$0.00</td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 pt-3 border-top border-secondary-subtle">
+                        <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancelar</a>
+                        <button type="submit" class="btn btn-success px-4 fw-semibold">
+                            <i class="bi bi-check2-circle me-1"></i> Guardar y Aplicar Transacción
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const catalogoRepuestos = @Html.Raw(ViewBag.RepuestosJson ?? "[]");
+        let repuestosSeleccionados = [];
+
+        // Inicializar select de repuestos
+        const selectRep = document.getElementById("selectRepuesto");
+        catalogoRepuestos.forEach(r => {
+            const opt = document.createElement("option");
+            opt.value = r.Id;
+            opt.textContent = `[${r.Codigo}] ${r.Nombre} (Stock: ${r.StockActual}) - $${r.CostoUnitario}`;
+            selectRep.appendChild(opt);
+        });
+
+        document.getElementById("btnAgregarRepuesto").addEventListener("click", () => {
+            const repId = parseInt(selectRep.value);
+            const cant = parseInt(document.getElementById("inputCantidad").value);
+
+            if (!repId || isNaN(cant) || cant <= 0) {
+                alert("Seleccione un repuesto y una cantidad válida mayor a 0.");
+                return;
+            }
+
+            const repuesto = catalogoRepuestos.find(r => r.Id === repId);
+            if (!repuesto) return;
+
+            // Validar stock existente
+            const existente = repuestosSeleccionados.find(r => r.RepuestoId === repId);
+            const cantTotal = (existente ? existente.Cantidad : 0) + cant;
+
+            if (cantTotal > repuesto.StockActual) {
+                alert(`Stock insuficiente para '${repuesto.Nombre}'. Stock actual: ${repuesto.StockActual}, solicitado: ${cantTotal}`);
+                return;
+            }
+
+            if (existente) {
+                existente.Cantidad = cantTotal;
+            } else {
+                repuestosSeleccionados.push({
+                    RepuestoId: repuesto.Id,
+                    Codigo: repuesto.Codigo,
+                    Nombre: repuesto.Nombre,
+                    Cantidad: cant,
+                    CostoUnitario: repuesto.CostoUnitario
+                });
+            }
+
+            actualizarTabla();
+            document.getElementById("inputCantidad").value = 1;
+        });
+
+        function eliminarRepuesto(repId) {
+            repuestosSeleccionados = repuestosSeleccionados.filter(r => r.RepuestoId !== repId);
+            actualizarTabla();
+        }
+
+        function actualizarTabla() {
+            const tbody = document.getElementById("bodyRepuestos");
+            tbody.innerHTML = "";
+
+            if (repuestosSeleccionados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted small py-3">No se han agregado repuestos aún.</td></tr>`;
+                document.getElementById("totalRepuestosLabel").textContent = "$0.00";
+                document.getElementById("badgeTotalItems").textContent = "0 artículos agregados";
+                document.getElementById("detallesJsonInput").value = "[]";
+                return;
+            }
+
+            let total = 0;
+            let totalItems = 0;
+
+            repuestosSeleccionados.forEach(r => {
+                const subtotal = r.Cantidad * r.CostoUnitario;
+                total += subtotal;
+                totalItems += r.Cantidad;
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td class="font-monospace text-light">${r.Codigo}</td>
+                    <td>${r.Nombre}</td>
+                    <td class="text-center font-monospace">${r.Cantidad}</td>
+                    <td class="text-end font-monospace">$${r.CostoUnitario.toFixed(2)}</td>
+                    <td class="text-end font-monospace text-success">$${subtotal.toFixed(2)}</td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="eliminarRepuesto(${r.RepuestoId})">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById("totalRepuestosLabel").textContent = `$${total.toFixed(2)}`;
+            document.getElementById("badgeTotalItems").textContent = `${totalItems} artículos agregados`;
+            document.getElementById("detallesJsonInput").value = JSON.stringify(repuestosSeleccionados);
+        }
+
+        document.getElementById("formMantenimiento").addEventListener("submit", () => {
+            document.getElementById("detallesJsonInput").value = JSON.stringify(repuestosSeleccionados);
+        });
+    </script>
+}
