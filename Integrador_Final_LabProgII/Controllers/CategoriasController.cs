@@ -102,6 +102,101 @@ namespace ITManager.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        // ==========================================
+        // ENDPOINTS AJAX / JSON PARA MÓDULO REACTIVO VUE.JS
+        // ==========================================
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllJson()
+        {
+            var categorias = await _categoriaRepository.GetAllAsync();
+            var result = categorias
+                .OrderBy(c => c.Nombre)
+                .Select(c => new
+                {
+                    id = c.Id,
+                    nombre = c.Nombre,
+                    descripcion = c.Descripcion ?? string.Empty
+                });
+            return Json(new { success = true, data = result });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateJson([FromBody] Categoria model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Nombre))
+            {
+                return Json(new { success = false, message = "El nombre de la categoría es obligatorio." });
+            }
+
+            try
+            {
+                var nueva = new Categoria
+                {
+                    Nombre = model.Nombre.Trim(),
+                    Descripcion = model.Descripcion?.Trim() ?? string.Empty
+                };
+                await _categoriaRepository.CreateAsync(nueva);
+                return Json(new { success = true, message = "Categoría creada con éxito.", data = nueva });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error al crear: " + ex.Message });
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateJson(int id, [FromBody] Categoria model)
+        {
+            if (string.IsNullOrWhiteSpace(model.Nombre))
+            {
+                return Json(new { success = false, message = "El nombre es obligatorio." });
+            }
+
+            var cat = await _categoriaRepository.GetByIdAsync(id);
+            if (cat == null)
+            {
+                return Json(new { success = false, message = "Categoría no encontrada." });
+            }
+
+            cat.Nombre = model.Nombre.Trim();
+            cat.Descripcion = model.Descripcion?.Trim() ?? string.Empty;
+
+            try
+            {
+                await _categoriaRepository.UpdateAsync(cat);
+                return Json(new { success = true, message = "Categoría actualizada correctamente." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error al actualizar: " + ex.Message });
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteJson(int id)
+        {
+            var cat = await _categoriaRepository.GetByIdAsync(id);
+            if (cat == null)
+            {
+                return Json(new { success = false, message = "Categoría no encontrada." });
+            }
+
+            try
+            {
+                await _categoriaRepository.DeleteAsync(id);
+                return Json(new { success = true, message = $"Categoría '{cat.Nombre}' eliminada exitosamente." });
+            }
+            catch (DbUpdateException)
+            {
+                return Json(new { success = false, message = $"No se puede eliminar la categoría '{cat.Nombre}' porque posee equipos asociados." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error al eliminar: " + ex.Message });
+            }
+        }
     }
 }
 

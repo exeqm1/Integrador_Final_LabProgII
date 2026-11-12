@@ -167,6 +167,7 @@
                                 <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow" aria-labelledby="userMenu">
                                     <li><h6 class="dropdown-header">@User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value</h6></li>
                                     <li><a class="dropdown-item" href="/Home/Index"><i class="bi bi-speedometer2 me-2"></i> Panel de Inicio</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile"><i class="bi bi-person-badge me-2 text-info"></i> Mi Perfil y Avatar</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">

@@ -1,0 +1,344 @@
+<mxfile host="app.diagrams.net" agent="opencode" compressed="false" version="24.7.7">
+  <diagram id="er-it-manager-clean" name="Diagrama Entidad Relacion - IT Manager">
+    <mxGraphModel dx="2800" dy="2000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2600" pageHeight="1600" background="#F8FAFC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ================= ENCABEZADO ================= -->
+        <mxCell id="Header_ER" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0F172A;strokeColor=#1E293B;fontColor=#FFFFFF;align=left;spacingLeft=25;arcSize=4;" vertex="1">
+          <mxGeometry x="40" y="30" width="2320" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Header_ER_Title" parent="Header_ER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#38BDF8;fontStyle=1;fontSize=18;fontFamily=Helvetica;" value="IT MANAGER - MODELO ENTIDAD RELACIÓN (ARQUITECTURA MODULAR RELACIONAL)" vertex="1">
+          <mxGeometry x="0" y="10" width="1200" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="Header_ER_Sub" parent="Header_ER" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontColor=#94A3B8;fontSize=11;fontFamily=Helvetica;" value="Organización por 4 zonas: 1) Catálogos Base (Izquierda) | 2) Activos &amp; Usuarios (Centro-Izquierda) | 3) Mesa de Ayuda (Centro-Derecha) | 4) Taller &amp; Stock (Derecha)" vertex="1">
+          <mxGeometry x="0" y="34" width="1400" height="20" as="geometry" />
+        </mxCell>
+
+        <!-- ================= ZONA 1: MAESTROS / CATALOGOS BASE ================= -->
+
+        <!-- Categorias -->
+        <mxCell id="T_Categorias" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#334155;strokeColor=#1E293B;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="Categorias" vertex="1">
+          <mxGeometry x="40" y="150" width="260" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="T_Categorias_f1" parent="T_Categorias" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;UQ  Nombre : VARCHAR(100)&#xa;    Descripcion : VARCHAR(255)" vertex="1">
+          <mxGeometry y="30" width="260" height="96" as="geometry" />
+        </mxCell>
+
+        <!-- Ubicaciones -->
+        <mxCell id="T_Ubicaciones" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#334155;strokeColor=#1E293B;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="Ubicaciones" vertex="1">
+          <mxGeometry x="40" y="440" width="260" height="142" as="geometry" />
+        </mxCell>
+        <mxCell id="T_Ubicaciones_f1" parent="T_Ubicaciones" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;    Nombre : VARCHAR(100)&#xa;    Edificio : VARCHAR(50)&#xa;    PisoOficina : VARCHAR(50)&#xa;    Activo : TINYINT(1)" vertex="1">
+          <mxGeometry y="30" width="260" height="112" as="geometry" />
+        </mxCell>
+
+        <!-- ================= ZONA 2: ACTIVOS Y PERSONAL ================= -->
+
+        <!-- Equipos -->
+        <mxCell id="T_Equipos" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#2563EB;strokeColor=#1D4ED8;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="Equipos" vertex="1">
+          <mxGeometry x="420" y="150" width="290" height="238" as="geometry" />
+        </mxCell>
+        <mxCell id="T_Equipos_f1" parent="T_Equipos" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;UQ  CodigoPatrimonial : VARCHAR(50)&#xa;UQ  NumeroSerie : VARCHAR(100)&#xa;    Marca : VARCHAR(100)&#xa;    Modelo : VARCHAR(100)&#xa;    FechaAlta : DATETIME&#xa;    Estado : VARCHAR(30)&#xa;FK  CategoriaId : INT&#xa;FK  UbicacionId : INT&#xa;FK  UsuarioCustodioId : INT NULL" vertex="1">
+          <mxGeometry y="30" width="290" height="208" as="geometry" />
+        </mxCell>
+
+        <!-- Usuarios -->
+        <mxCell id="T_Usuarios" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#0284C7;strokeColor=#0369A1;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="Usuarios" vertex="1">
+          <mxGeometry x="420" y="470" width="290" height="206" as="geometry" />
+        </mxCell>
+        <mxCell id="T_Usuarios_f1" parent="T_Usuarios" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;    Nombre : VARCHAR(100)&#xa;    Apellido : VARCHAR(100)&#xa;UQ  Email : VARCHAR(150)&#xa;    PasswordHash : VARCHAR(255)&#xa;    Rol : VARCHAR(30)&#xa;    AvatarUrl : VARCHAR(255)&#xa;    Activo : TINYINT(1)&#xa;FK  UbicacionId : INT" vertex="1">
+          <mxGeometry y="30" width="290" height="176" as="geometry" />
+        </mxCell>
+
+        <!-- ================= ZONA 3: MESA DE AYUDA (HELPDESK) ================= -->
+
+        <!-- Tickets -->
+        <mxCell id="T_Tickets" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#D97706;strokeColor=#B45309;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="Tickets" vertex="1">
+          <mxGeometry x="870" y="270" width="300" height="222" as="geometry" />
+        </mxCell>
+        <mxCell id="T_Tickets_f1" parent="T_Tickets" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;UQ  Codigo : VARCHAR(50)&#xa;    Titulo : VARCHAR(150)&#xa;    Descripcion : TEXT&#xa;    FechaCreacion : DATETIME&#xa;    FechaCierre : DATETIME NULL&#xa;    Prioridad : VARCHAR(20)&#xa;    Estado : VARCHAR(20)&#xa;FK  UsuarioSolicitanteId : INT&#xa;FK  EquipoId : INT" vertex="1">
+          <mxGeometry y="30" width="300" height="192" as="geometry" />
+        </mxCell>
+
+        <!-- Asignaciones -->
+        <mxCell id="T_Asignaciones" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#475569;strokeColor=#334155;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="Asignaciones" vertex="1">
+          <mxGeometry x="1310" y="150" width="280" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="T_Asignaciones_f1" parent="T_Asignaciones" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;    FechaAsignacion : DATETIME&#xa;FK  TicketId : INT&#xa;FK  TecnicoId : INT" vertex="1">
+          <mxGeometry y="30" width="280" height="96" as="geometry" />
+        </mxCell>
+
+        <!-- ComentariosTickets -->
+        <mxCell id="T_ComentariosTickets" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#475569;strokeColor=#334155;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="ComentariosTickets" vertex="1">
+          <mxGeometry x="1310" y="340" width="280" height="142" as="geometry" />
+        </mxCell>
+        <mxCell id="T_ComentariosTickets_f1" parent="T_ComentariosTickets" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;    FechaHora : DATETIME&#xa;    Mensaje : TEXT&#xa;FK  TicketId : INT&#xa;FK  UsuarioId : INT" vertex="1">
+          <mxGeometry y="30" width="280" height="112" as="geometry" />
+        </mxCell>
+
+        <!-- ================= ZONA 4: MANTENIMIENTO, TALLER & REPUESTOS ================= -->
+
+        <!-- Mantenimientos -->
+        <mxCell id="T_Mantenimientos" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#059669;strokeColor=#047857;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="Mantenimientos" vertex="1">
+          <mxGeometry x="870" y="650" width="310" height="238" as="geometry" />
+        </mxCell>
+        <mxCell id="T_Mantenimientos_f1" parent="T_Mantenimientos" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;    Fecha : DATETIME&#xa;    Tipo : VARCHAR(30)&#xa;    Diagnostico : TEXT&#xa;    TareasRealizadas : TEXT&#xa;    HorasTrabajo : DECIMAL(10,2)&#xa;    CostoTotalRepuestos : DECIMAL(10,2)&#xa;FK  EquipoId : INT&#xa;FK  TicketId : INT NULL&#xa;FK  TecnicoId : INT" vertex="1">
+          <mxGeometry y="30" width="310" height="208" as="geometry" />
+        </mxCell>
+
+        <!-- DetallesMantenimientos -->
+        <mxCell id="T_DetallesMantenimientos" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#047857;strokeColor=#065F46;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="DetallesMantenimientos" vertex="1">
+          <mxGeometry x="1310" y="690" width="280" height="142" as="geometry" />
+        </mxCell>
+        <mxCell id="T_DetallesMantenimientos_f1" parent="T_DetallesMantenimientos" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;    Cantidad : INT&#xa;    CostoHistorico : DECIMAL(10,2)&#xa;FK  MantenimientoId : INT&#xa;FK  RepuestoId : INT" vertex="1">
+          <mxGeometry y="30" width="280" height="112" as="geometry" />
+        </mxCell>
+
+        <!-- Repuestos -->
+        <mxCell id="T_Repuestos" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#1E293B;strokeColor=#0F172A;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="Repuestos" vertex="1">
+          <mxGeometry x="1740" y="670" width="280" height="174" as="geometry" />
+        </mxCell>
+        <mxCell id="T_Repuestos_f1" parent="T_Repuestos" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;UQ  Codigo : VARCHAR(50)&#xa;    Nombre : VARCHAR(150)&#xa;    Descripcion : VARCHAR(255)&#xa;    StockActual : INT&#xa;    StockMinimo : INT&#xa;    CostoUnitario : DECIMAL(10,2)" vertex="1">
+          <mxGeometry y="30" width="280" height="144" as="geometry" />
+        </mxCell>
+
+        <!-- Adjuntos (Archivos de Tickets / Mantenimientos) -->
+        <mxCell id="T_Adjuntos" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#475569;strokeColor=#334155;fontColor=#FFFFFF;fontSize=12;fontFamily=Helvetica;strokeWidth=1.5;" value="Adjuntos" vertex="1">
+          <mxGeometry x="885" y="990" width="280" height="174" as="geometry" />
+        </mxCell>
+        <mxCell id="T_Adjuntos_f1" parent="T_Adjuntos" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=11;fontFamily=Courier New;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK  Id : INT AUTO_INCREMENT&#xa;    RutaArchivo : VARCHAR(255)&#xa;    NombreOriginal : VARCHAR(255)&#xa;    MimeType : VARCHAR(100)&#xa;    Tipo : VARCHAR(30)&#xa;FK  TicketId : INT NULL&#xa;FK  MantenimientoId : INT NULL" vertex="1">
+          <mxGeometry y="30" width="280" height="144" as="geometry" />
+        </mxCell>
+
+        <!-- ================= LEYENDA TÉCNICA ================= -->
+        <mxCell id="Legend_ER" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;html=1;rounded=1;arcSize=6;fillColor=#334155;strokeColor=#1E293B;fontColor=#FFFFFF;fontSize=11;fontFamily=Helvetica;strokeWidth=1.5;" value="Leyenda de Restricciones &amp; Cardinalidades" vertex="1">
+          <mxGeometry x="1740" y="150" width="280" height="158" as="geometry" />
+        </mxCell>
+        <mxCell id="Legend_ER_f1" parent="Legend_ER" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=8;fontSize=10;fontFamily=Helvetica;strokeColor=none;fillColor=#FFFFFF;fontColor=#0F172A;" value="PK: Clave Primaria | FK: Clave Foránea&#xa;UQ: Restricción de Unicidad&#xa;NULL: Clave Foránea opcional&#xa;-- RESTRICT: Bloquea borrado de padre&#xa;-- CASCADE: Borra detalles dependientes&#xa;-- SET NULL: Desvincula relación si se borra&#xa;Notación ER: 1 a N / 0..1 a N (Crow's Foot)" vertex="1">
+          <mxGeometry y="26" width="280" height="132" as="geometry" />
+        </mxCell>
+
+        <!-- ================= CONEXIONES Y RELACIONES (LIMPIAS Y ORTOGONALES) ================= -->
+
+        <!-- 1. Categorias -> Equipos (Directo horizontal a la derecha) -->
+        <mxCell id="rel_cat_eq" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.4;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;" edge="1" source="T_Categorias" target="T_Equipos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_cat_eq" parent="rel_cat_eq" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 2. Ubicaciones -> Usuarios (Directo horizontal a la derecha) -->
+        <mxCell id="rel_ub_us" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.4;entryDx=0;entryDy=0;" edge="1" source="T_Ubicaciones" target="T_Usuarios">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_ub_us" parent="rel_ub_us" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 3. Ubicaciones -> Equipos (Subida limpia por el pasillo entre columnas) -->
+        <mxCell id="rel_ub_eq" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.2;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;" edge="1" source="T_Ubicaciones" target="T_Equipos">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="360" y="468" />
+              <mxPoint x="360" y="317" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_ub_eq" parent="rel_ub_eq" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 4. Usuarios -> Equipos (Custodio: vertical hacia arriba) -->
+        <mxCell id="rel_us_eq_custodio" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563EB;strokeWidth=1.5;endArrow=ERmany;startArrow=ERzeroToOne;exitX=0.3;exitY=0;exitDx=0;exitDy=0;entryX=0.3;entryY=1;entryDx=0;entryDy=0;" edge="1" source="T_Usuarios" target="T_Equipos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_us_eq_custodio" parent="rel_us_eq_custodio" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#2563EB;fontFamily=Helvetica;" value="SET NULL (Custodio)" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-12" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 5. Equipos -> Tickets (Hacia la derecha y baja a Tickets) -->
+        <mxCell id="rel_eq_tick" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" source="T_Equipos" target="T_Tickets">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="269" />
+              <mxPoint x="790" y="325" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_eq_tick" parent="rel_eq_tick" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 6. Usuarios -> Tickets (Hacia la derecha y sube a Tickets) -->
+        <mxCell id="rel_us_tick" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.3;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;" edge="1" source="T_Usuarios" target="T_Tickets">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="532" />
+              <mxPoint x="790" y="425" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_us_tick" parent="rel_us_tick" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT (Solicitante)" vertex="1" connectable="0">
+          <mxGeometry x="-0.1" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 7. Tickets -> Asignaciones (Hacia la derecha y sube a Asignaciones) -->
+        <mxCell id="rel_tick_asig" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="T_Tickets" target="T_Asignaciones">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240" y="325" />
+              <mxPoint x="1240" y="213" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_tick_asig" parent="rel_tick_asig" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#D97706;fontFamily=Helvetica;" value="CASCADE" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 8. Tickets -> ComentariosTickets (Directo horizontal a la derecha) -->
+        <mxCell id="rel_tick_com" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.65;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="T_Tickets" target="T_ComentariosTickets">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_tick_com" parent="rel_tick_com" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#D97706;fontFamily=Helvetica;" value="CASCADE" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 9. Usuarios -> Asignaciones (Técnico asignado: canal superior) -->
+        <mxCell id="rel_us_asig" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=0.8;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="T_Usuarios" target="T_Asignaciones">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="652" y="115" />
+              <mxPoint x="1450" y="115" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_us_asig" parent="rel_us_asig" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT (Técnico)" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 10. Usuarios -> ComentariosTickets (Autor de comentario: entra por abajo de Comentarios) -->
+        <mxCell id="rel_us_com" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.6;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" source="T_Usuarios" target="T_ComentariosTickets">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="594" />
+              <mxPoint x="820" y="540" />
+              <mxPoint x="1450" y="540" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_us_com" parent="rel_us_com" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT (Autor)" vertex="1" connectable="0">
+          <mxGeometry x="0.1" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 11. Tickets -> Mantenimientos (Vertical directo hacia abajo) -->
+        <mxCell id="rel_tick_mant" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=1.5;endArrow=ERmany;startArrow=ERzeroToOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="T_Tickets" target="T_Mantenimientos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_tick_mant" parent="rel_tick_mant" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#059669;fontFamily=Helvetica;" value="SET NULL (Ticket Origen)" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-12" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 12. Equipos -> Mantenimientos (Baja por la izquierda hasta Mantenimientos) -->
+        <mxCell id="rel_eq_mant" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=0.8;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" edge="1" source="T_Equipos" target="T_Mantenimientos">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="652" y="420" />
+              <mxPoint x="750" y="420" />
+              <mxPoint x="750" y="721" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_eq_mant" parent="rel_eq_mant" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT" vertex="1" connectable="0">
+          <mxGeometry x="0.1" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 13. Usuarios -> Mantenimientos (Técnico ejecutor: baja directo de Usuarios) -->
+        <mxCell id="rel_us_mant" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.7;entryDx=0;entryDy=0;" edge="1" source="T_Usuarios" target="T_Mantenimientos">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="565" y="817" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_us_mant" parent="rel_us_mant" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT (Técnico Ejecutor)" vertex="1" connectable="0">
+          <mxGeometry x="0.1" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 14. Mantenimientos -> DetallesMantenimientos (Directo horizontal a la derecha) -->
+        <mxCell id="rel_mant_det" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="T_Mantenimientos" target="T_DetallesMantenimientos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_mant_det" parent="rel_mant_det" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#059669;fontFamily=Helvetica;" value="CASCADE" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 15. Repuestos -> DetallesMantenimientos (Directo horizontal a la izquierda) -->
+        <mxCell id="rel_rep_det" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#0F172A;strokeWidth=1.5;endArrow=ERmany;startArrow=ERone;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="T_Repuestos" target="T_DetallesMantenimientos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_rep_det" parent="rel_rep_det" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#475569;fontFamily=Helvetica;" value="RESTRICT" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 16. Mantenimientos -> Adjuntos (Vertical hacia abajo) -->
+        <mxCell id="rel_mant_adj" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#059669;strokeWidth=1.5;endArrow=ERmany;startArrow=ERzeroToOne;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="T_Mantenimientos" target="T_Adjuntos">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="lbl_mant_adj" parent="rel_mant_adj" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontColor=#059669;fontFamily=Helvetica;" value="CASCADE (Mantenimiento)" vertex="1" connectable="0">
+          <mxGeometry x="0.0" y="-12" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- 17. Tickets -> Adjuntos (Baja por la izquierda de Mantenimientos hasta Adjuntos) -->
+        <mxCell id="rel_tick_adj" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#D97706;strokeWidth=1.5;endArrow=ERmany;startArrow=ERzeroToOne;exitX=0;exitY=0.8;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" source="T_Tickets" target="T_Adjuntos">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="830" y="448" />
+              <mxPoint x="830" y="1077" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbl_tick_adj" parent="rel_tick_adj" style="edgeLabel;html=1;align=center;verticalAlign=bottom;resizable=0;points=[];fontSize=10;fontColor=#D97706;fontFamily=Helvetica;" value="CASCADE (Ticket)" vertex="1" connectable="0">
+          <mxGeometry x="0.2" y="-4" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

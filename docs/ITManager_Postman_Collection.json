@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "a918f8e0-1234-4567-89ab-itmanager2026",
+		"name": "IT Manager - REST API con JWT",
+		"description": "Colección de pruebas para la Web API REST de IT Manager con autenticación JWT Bearer.\n\nEndpoints incluidos:\n1. POST /api/auth/login (Obtención de JWT Token con credenciales)\n2. GET /api/equipos (Listado paginado de inventario protegido con JWT)\n3. GET /api/equipos/{id} (Ficha técnica de activo protegido con JWT)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Autenticación - Login (Obtener Token JWT)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"if (jsonData.token) {",
+							"    pm.environment.set(\"jwt_token\", jsonData.token);",
+							"    console.log(\"Token JWT guardado exitosamente\");",
+							"}",
+							"pm.test(\"Status code is 200 OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Respuesta contiene token JWT\", function () {",
+							"    pm.expect(jsonData).to.have.property('token');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"admin@itmanager.com\",\n    \"password\": \"Admin123!*\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/api/auth/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				},
+				"description": "Envía credenciales de un usuario válido y retorna el Token JWT firmado y claims asociados."
+			},
+			"response": []
+		},
+		{
+			"name": "2. Equipos - Listado Paginado (Protegido con JWT)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/equipos?page=1&pageSize=10",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"equipos"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
+					]
+				},
+				"description": "Devuelve la lista paginada de activos de hardware en formato JSON requiriendo el header Authorization: Bearer <jwt_token>."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Equipos - Obtener por ID (Protegido con JWT)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/equipos/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"equipos",
+						"1"
+					]
+				},
+				"description": "Devuelve la ficha detallada del equipo ID=1 protegida por Bearer token."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5062"
+		},
+		{
+			"key": "jwt_token",
+			"value": ""
+		}
+	]
+}
