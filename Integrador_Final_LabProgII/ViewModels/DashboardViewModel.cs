@@ -23,3 +23,4 @@ namespace ITManager.ViewModels
         public List<int> MantenimientosPorCategoria { get; set; } = new();
     }
 }
+
