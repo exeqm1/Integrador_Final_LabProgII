@@ -49,3 +49,4 @@ namespace ITManager.ViewModels
         public int? EquipoId { get; set; }
     }
 }
+
