@@ -1,0 +1,230 @@
+@model ITManager.Models.Ticket
+@{
+    ViewData["Title"] = $"Ticket: {Model.Codigo}";
+    var esStaff = User.IsInRole("ADMINISTRADOR") || User.IsInRole("TECNICO");
+    var asignacionActiva = Model.Asignaciones.FirstOrDefault(a => a.Activo);
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <h2 class="h3 fw-bold mb-0 text-white">@Model.Titulo</h2>
+            <span class="badge bg-warning text-dark font-monospace fs-6">@Model.Codigo</span>
+            @switch (Model.Estado)
+            {
+                case ITManager.Models.Enums.EstadoTicket.ABIERTO:
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">ABIERTO</span>
+                    break;
+                case ITManager.Models.Enums.EstadoTicket.EN_PROCESO:
+                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">EN PROCESO</span>
+                    break;
+                case ITManager.Models.Enums.EstadoTicket.RESUELTO:
+                    <span class="badge bg-success-subtle text-success border border-success-subtle">RESUELTO</span>
+                    break;
+                case ITManager.Models.Enums.EstadoTicket.CERRADO:
+                    <span class="badge bg-secondary-subtle text-secondary-emphasis">CERRADO</span>
+                    break;
+            }
+        </div>
+        <p class="text-secondary small mb-0">
+            Reportado por <strong class="text-light">@(Model.UsuarioSolicitante?.Apellido), @(Model.UsuarioSolicitante?.Nombre)</strong>
+            el @Model.FechaCreacion.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+        </p>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Volver a la Lista
+        </a>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row g-4">
+    <!-- Columna Izquierda: Información del Incidente e Hilo de Conversación -->
+    <div class="col-lg-8">
+        <!-- Detalle de Falla -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-dark-subtle py-3 border-0">
+                <h5 class="card-title fw-bold mb-0 text-white">
+                    <i class="bi bi-card-text me-2 text-primary"></i>Descripción del Problema
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text text-light" style="white-space: pre-line;">@Model.Descripcion</p>
+            </div>
+        </div>
+
+        <!-- Hilo de Conversación / Comentarios -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark-subtle py-3 border-0">
+                <h5 class="card-title fw-bold mb-0 text-white">
+                    <i class="bi bi-chat-left-dots me-2 text-info"></i>Historial de Mensajes (@Model.Comentarios.Count)
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Comentarios.Any())
+                {
+                    <div class="d-flex flex-column gap-3 mb-4">
+                        @foreach (var c in Model.Comentarios)
+                        {
+                            var esMio = c.Usuario?.Email == User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+                            <div class="p-3 rounded-3 @(esMio ? "bg-primary-subtle ms-4 border border-primary-subtle" : "bg-dark-subtle me-4 border border-secondary-subtle")">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="fw-semibold @(esMio ? "text-primary-emphasis" : "text-light")">
+                                        <i class="bi bi-person me-1"></i>@(c.Usuario != null ? $"{c.Usuario.Nombre} {c.Usuario.Apellido}" : "Usuario")
+                                        <small class="badge bg-dark text-muted ms-1">@(c.Usuario?.Rol)</small>
+                                    </span>
+                                    <small class="text-secondary">@c.FechaHora.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</small>
+                                </div>
+                                <div class="text-light" style="white-space: pre-line;">@c.Mensaje</div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4 text-muted small">
+                        <i class="bi bi-chat-square fs-3 d-block mb-2"></i>
+                        Aún no hay comentarios ni actualizaciones en este ticket.
+                    </div>
+                }
+
+                @if (Model.Estado != ITManager.Models.Enums.EstadoTicket.CERRADO)
+                {
+                    <!-- Formulario de nuevo comentario -->
+                    <form asp-action="AddComentario" method="post" class="mt-3">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Id" />
+                        <div class="mb-3">
+                            <label for="mensajeComentario" class="form-label small fw-semibold text-light">Agregar Respuesta / Actualización</label>
+                            <textarea id="mensajeComentario" name="mensaje" rows="3" class="form-control" placeholder="Escriba un mensaje para el seguimiento del incidente..." required></textarea>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-send me-1"></i> Enviar Comentario
+                            </button>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-secondary py-2 small mb-0 text-center">
+                        <i class="bi bi-lock me-1"></i> Este ticket está cerrado. No se admiten nuevas respuestas.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Columna Derecha: Equipo Afectado y Gestión Técnica -->
+    <div class="col-lg-4">
+        <!-- Ficha del Equipo -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-dark-subtle py-3 border-0">
+                <h5 class="card-title fw-bold mb-0 text-white">
+                    <i class="bi bi-pc-display me-2 text-primary"></i>Equipo Afectado
+                </h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Equipo != null)
+                {
+                    <ul class="list-group list-group-flush bg-transparent">
+                        <li class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between">
+                            <span class="text-secondary">Código:</span>
+                            <strong class="font-monospace text-info">@Model.Equipo.CodigoPatrimonial</strong>
+                        </li>
+                        <li class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between">
+                            <span class="text-secondary">Hardware:</span>
+                            <span>@Model.Equipo.Marca @Model.Equipo.Modelo</span>
+                        </li>
+                        <li class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between">
+                            <span class="text-secondary">Categoría:</span>
+                            <span>@(Model.Equipo.Categoria?.Nombre ?? "N/A")</span>
+                        </li>
+                        <li class="list-group-item bg-transparent text-light px-0 d-flex justify-content-between">
+                            <span class="text-secondary">Ubicación:</span>
+                            <span>@(Model.Equipo.Ubicacion?.Nombre ?? "N/A")</span>
+                        </li>
+                    </ul>
+                    <a asp-controller="Equipos" asp-action="Details" asp-route-id="@Model.Equipo.Id" class="btn btn-sm btn-outline-info w-100 mt-3">
+                        <i class="bi bi-eye me-1"></i> Ver Ficha Técnica del Equipo
+                    </a>
+                }
+            </div>
+        </div>
+
+        <!-- Panel de Gestión Técnica (Exclusivo Administrador y Técnico) -->
+        @if (esStaff)
+        {
+            <div class="card border-0 shadow-sm mb-4 border-warning" style="border-top: 3px solid #f59e0b !important;">
+                <div class="card-header bg-dark-subtle py-3 border-0">
+                    <h5 class="card-title fw-bold mb-0 text-warning">
+                        <i class="bi bi-gear-fill me-2"></i>Gestión de Incidencia
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Asignación de Técnico -->
+                    <form asp-action="AsignarTecnico" method="post" class="mb-4">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Id" />
+                        <label class="form-label small fw-semibold text-light">Técnico Asignado</label>
+                        <div class="input-group">
+                            <select name="tecnicoId" asp-items="ViewBag.Tecnicos" class="form-select form-select-sm">
+                                <option value="">-- Asignar Técnico --</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-person-check"></i> Asignar
+                            </button>
+                        </div>
+                        @if (asignacionActiva?.Tecnico != null)
+                        {
+                            <div class="form-text text-success small mt-1">
+                                <i class="bi bi-check2"></i> Asignado a: @asignacionActiva.Tecnico.Apellido, @asignacionActiva.Tecnico.Nombre
+                            </div>
+                        }
+                    </form>
+
+                    <!-- Cambio de Estado -->
+                    <form asp-action="CambiarEstado" method="post" class="mb-4">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ticketId" value="@Model.Id" />
+                        <label class="form-label small fw-semibold text-light">Modificar Estado</label>
+                        <div class="input-group">
+                            <select name="nuevoEstado" class="form-select form-select-sm">
+                                @foreach (var est in (ITManager.Models.Enums.EstadoTicket[])ViewBag.Estados)
+                                {
+                                    <!option value="@est" @(Model.Estado == est ? "selected" : "")>@est</!option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-arrow-repeat"></i> Actualizar
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Generar Orden de Mantenimiento Directa -->
+                    <div class="border-top border-secondary-subtle pt-3">
+                        <a href="/Mantenimientos/Create?ticketId=@Model.Id&equipoId=@Model.EquipoId" class="btn btn-success w-100 fw-semibold">
+                            <i class="bi bi-tools me-1"></i> Generar Orden de Mantenimiento
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

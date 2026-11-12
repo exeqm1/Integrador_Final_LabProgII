@@ -94,5 +94,17 @@ public class EquipoRepository : Repository<Equipo>, IEquipoRepository
             .OrderBy(e => e.CodigoPatrimonial)
             .ToListAsync();
     }
-}
 
+    public async Task<Equipo?> GetWithDetailsAsync(int id)
+    {
+        return await _dbSet
+            .Include(e => e.Categoria)
+            .Include(e => e.Ubicacion)
+            .Include(e => e.UsuarioCustodio)
+            .Include(e => e.Tickets.OrderByDescending(t => t.FechaCreacion))
+                .ThenInclude(t => t.UsuarioSolicitante)
+            .Include(e => e.Mantenimientos.OrderByDescending(m => m.Fecha))
+                .ThenInclude(m => m.Tecnico)
+            .FirstOrDefaultAsync(e => e.Id == id);
+    }
+}
