@@ -62,7 +62,7 @@ namespace ITManager.Controllers
                 SoloMisTickets = soloMisTickets
             };
 
-            return View(vm);
+            return View("Index", vm);
         }
 
         [HttpGet]
