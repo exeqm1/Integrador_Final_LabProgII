@@ -1,12 +1,12 @@
 @model IEnumerable<ITManager.Models.Repuesto>
 @{
-    ViewData["Title"] = "Pañol de Repuestos";
+    ViewData["Title"] = "Inventario de Repuestos";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
     <div>
         <h2 class="h3 fw-bold mb-1 text-white">
-            <i class="bi bi-boxes me-2 text-info"></i>Pañol de Repuestos e Insumos
+            <i class="bi bi-boxes me-2 text-info"></i>Inventario de Repuestos e Insumos
         </h2>
         <p class="text-secondary small mb-0">Gestión de inventario físico de piezas, monitoreo de stock crítico y reposición.</p>
     </div>
@@ -101,7 +101,7 @@
                                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                                 </div>
                                                 <div class="modal-body py-3">
-                                                    <label class="form-label small text-secondary">Cantidad a ingresar al pañol:</label>
+                                                    <label class="form-label small text-secondary">Cantidad a ingresar al stock:</label>
                                                     <input type="number" name="cantidad" class="form-control" min="1" value="5" required />
                                                 </div>
                                                 <div class="modal-footer border-secondary py-2">
@@ -120,7 +120,7 @@
                 {
                     <tr>
                         <td colspan="8" class="text-center py-4 text-muted">
-                            No hay repuestos registrados en el pañol.
+                            No hay repuestos registrados en el inventario.
                         </td>
                     </tr>
                 }

@@ -96,6 +96,13 @@ namespace ITManager.Controllers
         }
 
         [HttpGet]
+        [ActionName("Crear")]
+        public async Task<IActionResult> CrearAlias(int? equipoId = null)
+        {
+            return await Create(equipoId);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Create(int? equipoId = null)
         {
             var userId = ObtenerUsuarioIdActual();
@@ -115,11 +122,19 @@ namespace ITManager.Controllers
 
             ViewBag.Prioridades = Enum.GetValues<PrioridadTicket>();
 
-            return View(new TicketCreateViewModel
+            return View("Create", new TicketCreateViewModel
             {
                 EquipoId = equipoId ?? 0,
                 Prioridad = PrioridadTicket.MEDIA
             });
+        }
+
+        [HttpPost]
+        [ActionName("Crear")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearAliasPost(TicketCreateViewModel model)
+        {
+            return await Create(model);
         }
 
         [HttpPost]
@@ -135,7 +150,7 @@ namespace ITManager.Controllers
                     Descripcion = $"[{e.CodigoPatrimonial}] {e.Marca} {e.Modelo} (S/N: {e.NumeroSerie})"
                 }), "Id", "Descripcion", model.EquipoId);
                 ViewBag.Prioridades = Enum.GetValues<PrioridadTicket>();
-                return View(model);
+                return View("Create", model);
             }
 
             var userId = ObtenerUsuarioIdActual();

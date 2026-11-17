@@ -109,22 +109,22 @@
                             @if (User.IsInRole("TECNICO"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 rounded-2" href="/Tickets/Asignados">
+                                    <a class="nav-link px-3 rounded-2" asp-controller="Tickets" asp-action="Asignados">
                                         <i class="bi bi-card-checklist me-1"></i> Tickets Asignados
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 rounded-2" href="/Mantenimientos">
+                                    <a class="nav-link px-3 rounded-2" asp-controller="Mantenimientos" asp-action="Index">
                                         <i class="bi bi-tools me-1"></i> Registro Mantenimientos
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 rounded-2" href="/Equipos">
+                                    <a class="nav-link px-3 rounded-2" asp-controller="Equipos" asp-action="Index">
                                         <i class="bi bi-pc-display me-1"></i> Inventario Equipos
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 rounded-2" href="/Repuestos">
+                                    <a class="nav-link px-3 rounded-2" asp-controller="Repuestos" asp-action="Index">
                                         <i class="bi bi-boxes me-1"></i> Repuestos
                                     </a>
                                 </li>
@@ -134,17 +134,17 @@
                             @if (User.IsInRole("EMPLEADO"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 rounded-2" href="/Tickets/MisTickets">
+                                    <a class="nav-link px-3 rounded-2" asp-controller="Tickets" asp-action="MisTickets">
                                         <i class="bi bi-person-lines-fill me-1"></i> Mis Tickets
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 rounded-2" href="/Tickets/Crear">
+                                    <a class="nav-link px-3 rounded-2" asp-controller="Tickets" asp-action="Create">
                                         <i class="bi bi-plus-circle me-1 text-info"></i> Reportar Incidente
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link px-3 rounded-2" href="/Equipos">
+                                    <a class="nav-link px-3 rounded-2" asp-controller="Equipos" asp-action="Index">
                                         <i class="bi bi-laptop me-1 text-warning"></i> Mis Equipos Asignados
                                     </a>
                                 </li>
