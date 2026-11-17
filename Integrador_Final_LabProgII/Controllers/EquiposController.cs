@@ -38,6 +38,10 @@ namespace ITManager.Controllers
             // Si es EMPLEADO, solo ve los equipos asignados a su custodia
             if (esEmpleado)
             {
+                var categoriasEmpleado = await _categoriaRepository.GetAllAsync();
+                ViewBag.Categorias = new SelectList(categoriasEmpleado, "Id", "Nombre", categoriaId);
+                ViewBag.Estados = Enum.GetValues<EstadoEquipo>();
+
                 var misEquipos = await _equipoRepository.GetByUsuarioCustodioAsync(userId);
                 var vmEmpleado = new EquipoIndexViewModel
                 {
