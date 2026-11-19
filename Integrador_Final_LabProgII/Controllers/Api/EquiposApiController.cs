@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ITManager.Controllers.Api
 {
     [ApiController]
+    [Route("api/equipos")]
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class EquiposApiController : ControllerBase

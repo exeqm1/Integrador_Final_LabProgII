@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace ITManager.Controllers.Api
 {
     [ApiController]
+    [Route("api/auth")]
     [Route("api/[controller]")]
     public class AuthApiController : ControllerBase
     {
