@@ -26,19 +26,29 @@
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-6">
-                            <label asp-for="EquipoId" class="form-label fw-semibold small text-light"></label>
-                            <select asp-for="EquipoId" asp-items="ViewBag.Equipos" class="form-select">
-                                <option value="">-- Seleccionar Equipo --</option>
+                            <label asp-for="TicketId" class="form-label fw-semibold small text-light"></label>
+                            <select asp-for="TicketId" class="form-select" id="selectTicket">
+                                <option value="">-- Sin Ticket Asociado (Mantenimiento Directo) --</option>
+                                @if (ViewBag.TicketsData != null)
+                                {
+                                    foreach (var t in ViewBag.TicketsData)
+                                    {
+                                        <!option value="@t.Id" data-equipo-id="@t.EquipoId" @(Model.TicketId == t.Id ? "selected" : "")>@t.Desc</!option>
+                                    }
+                                }
                             </select>
-                            <span asp-validation-for="EquipoId" class="text-danger small"></span>
+                            <span asp-validation-for="TicketId" class="text-danger small"></span>
                         </div>
 
                         <div class="col-md-6">
-                            <label asp-for="TicketId" class="form-label fw-semibold small text-light"></label>
-                            <select asp-for="TicketId" asp-items="ViewBag.Tickets" class="form-select">
-                                <option value="">-- Sin Ticket Asociado (Mantenimiento Directo) --</option>
+                            <label asp-for="EquipoId" class="form-label fw-semibold small text-light"></label>
+                            <select asp-for="EquipoId" asp-items="ViewBag.Equipos" class="form-select" id="selectEquipo">
+                                <option value="">-- Seleccionar Equipo --</option>
                             </select>
-                            <span asp-validation-for="TicketId" class="text-danger small"></span>
+                            <span asp-validation-for="EquipoId" class="text-danger small"></span>
+                            <small class="text-info d-none mt-1 d-block" id="msgEquipoVinculado">
+                                <i class="bi bi-link-45deg me-1"></i>Equipo vinculado automáticamente al ticket.
+                            </small>
                         </div>
 
                         <div class="col-md-6">
@@ -239,6 +249,41 @@
             document.getElementById("totalRepuestosLabel").textContent = `$${total.toFixed(2)}`;
             document.getElementById("badgeTotalItems").textContent = `${totalItems} artículos agregados`;
             document.getElementById("detallesJsonInput").value = JSON.stringify(repuestosSeleccionados);
+        }
+
+        // Sincronización automática de Ticket y Equipo
+        const selectTicket = document.getElementById("selectTicket");
+        const selectEquipo = document.getElementById("selectEquipo");
+        const msgEquipoVinculado = document.getElementById("msgEquipoVinculado");
+        const selectTipo = document.querySelector("select[name='Tipo']");
+
+        function sincronizarEquipoConTicket() {
+            if (!selectTicket || !selectEquipo) return;
+            const selectedOpt = selectTicket.options[selectTicket.selectedIndex];
+            const equipoId = selectedOpt ? selectedOpt.getAttribute("data-equipo-id") : null;
+
+            if (equipoId) {
+                selectEquipo.value = equipoId;
+                msgEquipoVinculado.classList.remove("d-none");
+                // Deshabilitar las otras opciones para evitar selección inconsistente
+                Array.from(selectEquipo.options).forEach(opt => {
+                    opt.disabled = (opt.value !== "" && opt.value !== equipoId);
+                });
+                if (selectTipo) {
+                    selectTipo.value = "CORRECTIVO";
+                }
+            } else {
+                msgEquipoVinculado.classList.add("d-none");
+                // Habilitar todas las opciones para mantenimiento preventivo/directo
+                Array.from(selectEquipo.options).forEach(opt => {
+                    opt.disabled = false;
+                });
+            }
+        }
+
+        if (selectTicket) {
+            selectTicket.addEventListener("change", sincronizarEquipoConTicket);
+            sincronizarEquipoConTicket();
         }
 
         document.getElementById("formMantenimiento").addEventListener("submit", () => {

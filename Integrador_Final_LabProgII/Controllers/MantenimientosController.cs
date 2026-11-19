@@ -76,6 +76,24 @@ namespace ITManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MantenimientoCreateViewModel model)
         {
+            if (model.TicketId.HasValue)
+            {
+                var ticket = await _ticketRepository.GetByIdAsync(model.TicketId.Value);
+                if (ticket == null)
+                {
+                    ModelState.AddModelError(nameof(model.TicketId), "El ticket seleccionado no existe.");
+                }
+                else if (model.EquipoId != 0 && model.EquipoId != ticket.EquipoId)
+                {
+                    ModelState.AddModelError(nameof(model.EquipoId), $"Inconsistencia: El ticket [{ticket.Codigo}] pertenece a otro equipo, no al seleccionado.");
+                }
+                else
+                {
+                    // Garantizamos que el equipo del mantenimiento sea siempre el equipo del ticket
+                    model.EquipoId = ticket.EquipoId;
+                }
+            }
+
             if (!ModelState.IsValid)
             {
                 await CargarViewBagsAsync(model.EquipoId, model.TicketId);
@@ -152,11 +170,20 @@ namespace ITManager.Controllers
                 Desc = $"[{e.CodigoPatrimonial}] {e.Marca} {e.Modelo}"
             }), "Id", "Desc", equipoId);
 
-            ViewBag.Tickets = new SelectList(tickets.Where(t => t.Estado != EstadoTicket.CERRADO).Select(t => new
+            var ticketsActivos = tickets.Where(t => t.Estado != EstadoTicket.CERRADO).ToList();
+
+            ViewBag.Tickets = new SelectList(ticketsActivos.Select(t => new
             {
                 t.Id,
                 Desc = $"[{t.Codigo}] {t.Titulo}"
             }), "Id", "Desc", ticketId);
+
+            ViewBag.TicketsData = ticketsActivos.Select(t => new
+            {
+                t.Id,
+                t.EquipoId,
+                Desc = $"[{t.Codigo}] {t.Titulo}"
+            }).ToList();
 
             ViewBag.RepuestosJson = JsonSerializer.Serialize(repuestos.Select(r => new
             {
